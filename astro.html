@@ -4,9 +4,13 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Simulador das Leis de Kepler</title>
+
 
 <style>
 
@@ -39,9 +43,9 @@ body{
 }
 
 
-/* =====================================================
+/* =========================================================
    ESTRELAS
-===================================================== */
+========================================================= */
 
 .stars{
 
@@ -81,9 +85,9 @@ body{
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTAINER
-===================================================== */
+========================================================= */
 
 .container{
 
@@ -100,9 +104,9 @@ body{
 }
 
 
-/* =====================================================
+/* =========================================================
    CABEÇALHO
-===================================================== */
+========================================================= */
 
 header{
 
@@ -132,9 +136,9 @@ header p{
 }
 
 
-/* =====================================================
+/* =========================================================
    ABAS
-===================================================== */
+========================================================= */
 
 .tabs{
 
@@ -191,9 +195,9 @@ header p{
 }
 
 
-/* =====================================================
+/* =========================================================
    PRINCIPAL
-===================================================== */
+========================================================= */
 
 .main{
 
@@ -225,9 +229,9 @@ header p{
 }
 
 
-/* =====================================================
+/* =========================================================
    SIMULAÇÃO
-===================================================== */
+========================================================= */
 
 .simulation{
 
@@ -300,9 +304,9 @@ canvas.selecting{
 }
 
 
-/* =====================================================
+/* =========================================================
    PAINEL
-===================================================== */
+========================================================= */
 
 .sidebar{
 
@@ -367,9 +371,9 @@ canvas.selecting{
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTROLES
-===================================================== */
+========================================================= */
 
 .controls{
 
@@ -436,9 +440,9 @@ input[type="number"]:focus{
 }
 
 
-/* =====================================================
+/* =========================================================
    BOTÕES
-===================================================== */
+========================================================= */
 
 .buttons{
 
@@ -451,7 +455,7 @@ input[type="number"]:focus{
 
 }
 
-button.control-btn{
+.control-btn{
 
     min-height:44px;
 
@@ -471,52 +475,52 @@ button.control-btn{
 
 }
 
-button.control-btn:hover{
+.control-btn:hover{
 
     background:#3477d8;
 
 }
 
-button.green{
+.control-btn.green{
 
     background:#13825d;
 
 }
 
-button.green:hover{
+.control-btn.green:hover{
 
     background:#18a576;
 
 }
 
-button.orange{
+.control-btn.orange{
 
     background:#b06717;
 
 }
 
-button.orange:hover{
+.control-btn.orange:hover{
 
     background:#d47d1d;
 
 }
 
-button.red{
+.control-btn.red{
 
     background:#7d3142;
 
 }
 
-button.red:hover{
+.control-btn.red:hover{
 
     background:#a63f55;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    DADOS
-===================================================== */
+========================================================= */
 
 .data{
 
@@ -560,9 +564,9 @@ button.red:hover{
 }
 
 
-/* =====================================================
-   EXPERIMENTO 2ª LEI
-===================================================== */
+/* =========================================================
+   EXPERIMENTO DA 2ª LEI
+========================================================= */
 
 .experimentPanel{
 
@@ -662,6 +666,11 @@ button.red:hover{
 
 }
 
+
+/* =========================================================
+   COMPARAÇÃO
+========================================================= */
+
 .compareBox{
 
     padding:15px;
@@ -754,9 +763,9 @@ button.red:hover{
 }
 
 
-/* =====================================================
+/* =========================================================
    RESPONSIVO
-===================================================== */
+========================================================= */
 
 @media(max-width:980px){
 
@@ -821,7 +830,9 @@ id="stars">
 
 <header>
 
-<h1>🌌 Leis de Kepler</h1>
+<h1>
+🌌 Leis de Kepler
+</h1>
 
 <p>
 Explore o movimento orbital dos planetas
@@ -842,6 +853,7 @@ data-law="1">
 
 </button>
 
+
 <button
 class="tab"
 data-law="2">
@@ -849,6 +861,7 @@ data-law="2">
 2ª Lei
 
 </button>
+
 
 <button
 class="tab"
@@ -865,9 +878,10 @@ data-law="3">
 <div class="main">
 
 
-<!-- ===================================================
-     CANVAS
-=================================================== -->
+
+<!-- ======================================================
+     SIMULAÇÃO
+====================================================== -->
 
 <div class="card simulation">
 
@@ -882,9 +896,9 @@ id="legend">
 
 
 
-<!-- ===================================================
+<!-- ======================================================
      PAINEL
-=================================================== -->
+====================================================== -->
 
 <div class="card sidebar">
 
@@ -912,9 +926,9 @@ id="info">
 
 
 
-<!-- ===================================================
+<!-- ======================================================
      CONTROLES GERAIS
-=================================================== -->
+====================================================== -->
 
 <div
 class="controls"
@@ -938,6 +952,7 @@ id="eccValue">
 
 </label>
 
+
 <input
 type="range"
 id="ecc"
@@ -950,7 +965,9 @@ value="0.45">
 
 
 
-<div class="control">
+<div
+class="control"
+id="speedControl">
 
 <label>
 
@@ -964,6 +981,7 @@ id="speedValue">
 </strong>
 
 </label>
+
 
 <input
 type="range"
@@ -1065,9 +1083,9 @@ Período
 
 
 
-<!-- ===================================================
-     EXPERIMENTO DA 2ª LEI
-=================================================== -->
+<!-- ======================================================
+     EXPERIMENTO DA SEGUNDA LEI
+====================================================== -->
 
 <div
 class="experimentPanel"
@@ -1076,13 +1094,30 @@ id="experimentPanel">
 
 <div class="experimentNotice">
 
-<strong>Como realizar:</strong>
+<strong>
+Como realizar:
+</strong>
 
-primeiro escolha o experimento A ou B,
-depois clique diretamente sobre a órbita
-para definir o ponto inicial.
-Digite o intervalo de tempo
-e pressione Executar.
+<br><br>
+
+1. Escolha o ponto inicial A.
+
+<br>
+
+2. Clique diretamente sobre a órbita.
+
+<br>
+
+3. Digite o intervalo de tempo.
+
+<br>
+
+4. Execute o experimento A.
+
+<br><br>
+
+Depois repita o procedimento para B
+em outra região da órbita.
 
 <br><br>
 
@@ -1093,7 +1128,9 @@ A órbita completa corresponde a
 
 
 
-<!-- EXPERIMENTO A -->
+<!-- ======================================================
+     EXPERIMENTO A
+====================================================== -->
 
 <div
 class="experimentCard a">
@@ -1141,13 +1178,14 @@ horas
 
 </label>
 
+
 <input
 type="number"
 id="timeA"
 min="0.1"
-max="12"
+max="10"
 step="0.1"
-value="1">
+value="2">
 
 </div>
 
@@ -1164,7 +1202,9 @@ Ponto A ainda não selecionado.
 
 
 
-<!-- EXPERIMENTO B -->
+<!-- ======================================================
+     EXPERIMENTO B
+====================================================== -->
 
 <div
 class="experimentCard b">
@@ -1212,13 +1252,14 @@ horas
 
 </label>
 
+
 <input
 type="number"
 id="timeB"
 min="0.1"
-max="12"
+max="10"
 step="0.1"
-value="1">
+value="2">
 
 </div>
 
@@ -1235,7 +1276,9 @@ Ponto B ainda não selecionado.
 
 
 
-<!-- COMPARAÇÃO -->
+<!-- ======================================================
+     COMPARAÇÃO
+====================================================== -->
 
 <div class="compareBox">
 
@@ -1256,11 +1299,15 @@ Comparação das áreas
 Tempo A
 </small>
 
-<strong id="resultTimeA">
+<strong
+id="resultTimeA">
+
 —
+
 </strong>
 
 </div>
+
 
 
 <div class="compareCell">
@@ -1269,11 +1316,15 @@ Tempo A
 Área A₁
 </small>
 
-<strong id="resultAreaA">
+<strong
+id="resultAreaA">
+
 —
+
 </strong>
 
 </div>
+
 
 
 <div class="compareCell">
@@ -1282,11 +1333,15 @@ Tempo A
 Tempo B
 </small>
 
-<strong id="resultTimeB">
+<strong
+id="resultTimeB">
+
 —
+
 </strong>
 
 </div>
+
 
 
 <div class="compareCell">
@@ -1295,11 +1350,15 @@ Tempo B
 Área A₂
 </small>
 
-<strong id="resultAreaB">
+<strong
+id="resultAreaB">
+
 —
+
 </strong>
 
 </div>
+
 
 
 <div class="compareCell">
@@ -1308,11 +1367,15 @@ Tempo B
 Diferença
 </small>
 
-<strong id="resultDifference">
+<strong
+id="resultDifference">
+
 —
+
 </strong>
 
 </div>
+
 
 
 <div class="compareCell">
@@ -1322,13 +1385,16 @@ Período orbital
 </small>
 
 <strong>
+
 24 h
+
 </strong>
 
 </div>
 
 
 </div>
+
 
 
 <div
@@ -1341,9 +1407,11 @@ para comparar as áreas.
 </div>
 
 
+
 <div
 class="buttons"
 style="margin-top:10px;">
+
 
 <button
 class="control-btn red"
@@ -1358,12 +1426,10 @@ id="clearExperiments">
 class="control-btn"
 id="pauseExperiment">
 
-⏸ Pausar animação
+⏸ Pausar
 
 </button>
 
-</div>
-
 
 </div>
 
@@ -1373,16 +1439,23 @@ id="pauseExperiment">
 
 </div>
 
-</div>
 
 </div>
+
+
+</div>
+
+
+</div>
+
 
 
 <script>
 
-/* ==========================================================
+
+/* =========================================================
    ELEMENTOS
-========================================================== */
+========================================================= */
 
 const canvas =
 document.getElementById("canvas");
@@ -1405,77 +1478,105 @@ const resetButton =
 document.getElementById("resetButton");
 
 
-let currentLaw = 1;
+let currentLaw =
+1;
 
-let running = true;
+let running =
+true;
 
-let simulationTime = 0;
+let simulationTime =
+0;
 
-let previousTimestamp = 0;
+let previousTimestamp =
+0;
+
+
+const TWO_PI =
+Math.PI*2;
 
 
 
-/* ==========================================================
+/* =========================================================
    ESTRELAS
-========================================================== */
+========================================================= */
 
 const stars =
 document.getElementById("stars");
 
 
-for(let i=0;i<135;i++){
+for(
+    let i=0;
+    i<140;
+    i++
+){
 
     const star =
-    document.createElement("div");
+    document.createElement(
+        "div"
+    );
+
 
     star.className =
     "star";
 
+
     const size =
     Math.random()*2.2+.5;
+
 
     star.style.width =
     size+"px";
 
+
     star.style.height =
     size+"px";
+
 
     star.style.left =
     Math.random()*100+"%";
 
+
     star.style.top =
     Math.random()*100+"%";
+
 
     star.style.animationDelay =
     Math.random()*3+"s";
 
-    stars.appendChild(star);
+
+    stars.appendChild(
+        star
+    );
 
 }
 
 
 
-/* ==========================================================
+/* =========================================================
    CANVAS
-========================================================== */
+========================================================= */
 
 function setupCanvas(){
 
     const rect =
     canvas.getBoundingClientRect();
 
+
     const dpr =
     window.devicePixelRatio || 1;
+
 
     canvas.width =
     Math.round(
         rect.width*dpr
     );
 
+
     canvas.height =
     Math.round(
         rect.height*dpr
     );
+
 
     ctx.setTransform(
         dpr,
@@ -1488,63 +1589,101 @@ function setupCanvas(){
 
 }
 
+
 window.addEventListener(
     "resize",
     setupCanvas
 );
 
+
 setupCanvas();
 
 
 
-/* ==========================================================
-   MATEMÁTICA ORBITAL
-========================================================== */
+/* =========================================================
+   NORMALIZAR ÂNGULO
+========================================================= */
 
-const TWO_PI =
-Math.PI*2;
+function normalizeAngle(
+    angle
+){
 
+    return(
 
-function normalizeAngle(angle){
+        (
+            angle % TWO_PI
+        )
+        +
+        TWO_PI
 
-    return (
-        (angle % TWO_PI)
-        + TWO_PI
     ) % TWO_PI;
 
 }
 
 
 
-/*
-Equação de Kepler
+/* =========================================================
+   EQUAÇÃO DE KEPLER
 
-M = E - e sen(E)
-*/
+   IMPORTANTE:
 
-function solveKepler(M,e){
+   O Sol foi colocado no FOCO ESQUERDO.
+
+   Para uma elipse:
+
+   x = a cos(E)
+   y = b sin(E)
+
+   e foco esquerdo:
+
+   xSol = -ae
+
+   a área varrida é proporcional a:
+
+   M = E + e sen(E)
+
+========================================================= */
+
+function solveKepler(
+    M,
+    e
+){
 
     M =
-    normalizeAngle(M);
+    normalizeAngle(
+        M
+    );
+
 
     let E =
     M;
 
-    for(let i=0;i<15;i++){
+
+    for(
+        let i=0;
+        i<20;
+        i++
+    ){
 
         const f =
         E
-        -e*Math.sin(E)
-        -M;
+        +
+        e*Math.sin(E)
+        -
+        M;
+
 
         const fp =
         1
-        -e*Math.cos(E);
+        +
+        e*Math.cos(E);
+
 
         E -=
         f/fp;
 
     }
+
 
     return E;
 
@@ -1552,22 +1691,9 @@ function solveKepler(M,e){
 
 
 
-/*
-IMPORTANTE:
-
-A elipse é desenhada com centro geométrico
-em cx,cy.
-
-Portanto:
-
-x = cx + a cos(E)
-y = cy + b sen(E)
-
-O SOL é que fica deslocado para o foco.
-
-Isso corrige o problema anterior em que
-o planeta ficava fora da órbita.
-*/
+/* =========================================================
+   POSIÇÃO NA ÓRBITA
+========================================================= */
 
 function orbitalPosition(
     M,
@@ -1578,12 +1704,18 @@ function orbitalPosition(
 ){
 
     const E =
-    solveKepler(M,e);
+    solveKepler(
+        M,
+        e
+    );
+
 
     const b =
-    a*Math.sqrt(
+    a*
+    Math.sqrt(
         1-e*e
     );
+
 
     return{
 
@@ -1591,11 +1723,13 @@ function orbitalPosition(
 
         x:
         cx
-        +a*Math.cos(E),
+        +
+        a*Math.cos(E),
 
         y:
         cy
-        +b*Math.sin(E)
+        +
+        b*Math.sin(E)
 
     };
 
@@ -1603,9 +1737,9 @@ function orbitalPosition(
 
 
 
-/* ==========================================================
-   DESENHOS
-========================================================== */
+/* =========================================================
+   ÓRBITA
+========================================================= */
 
 function drawOrbit(
     cx,
@@ -1615,6 +1749,7 @@ function drawOrbit(
 ){
 
     ctx.beginPath();
+
 
     ctx.ellipse(
         cx,
@@ -1626,17 +1761,24 @@ function drawOrbit(
         TWO_PI
     );
 
+
     ctx.strokeStyle =
-    "rgba(100,160,245,.75)";
+    "rgba(100,160,245,.78)";
+
 
     ctx.lineWidth =
     2;
+
 
     ctx.stroke();
 
 }
 
 
+
+/* =========================================================
+   SOL
+========================================================= */
 
 function drawSun(
     x,
@@ -1649,26 +1791,32 @@ function drawSun(
 
     const glow =
     ctx.createRadialGradient(
-        x,y,
+        x,
+        y,
         0,
-        x,y,
-        r*3.3
+        x,
+        y,
+        r*3.5
     );
+
 
     glow.addColorStop(
         0,
         "rgba(255,255,220,1)"
     );
 
+
     glow.addColorStop(
         .18,
         "rgba(255,205,50,.95)"
     );
 
+
     glow.addColorStop(
         .55,
-        "rgba(255,130,0,.25)"
+        "rgba(255,130,0,.28)"
     );
+
 
     glow.addColorStop(
         1,
@@ -1678,16 +1826,19 @@ function drawSun(
 
     ctx.beginPath();
 
+
     ctx.arc(
         x,
         y,
-        r*3.3,
+        r*3.5,
         0,
         TWO_PI
     );
 
+
     ctx.fillStyle =
     glow;
+
 
     ctx.fill();
 
@@ -1703,20 +1854,24 @@ function drawSun(
         r
     );
 
+
     sun.addColorStop(
         0,
         "#fffde9"
     );
+
 
     sun.addColorStop(
         .3,
         "#ffe266"
     );
 
+
     sun.addColorStop(
         .7,
         "#ffab16"
     );
+
 
     sun.addColorStop(
         1,
@@ -1726,6 +1881,7 @@ function drawSun(
 
     ctx.beginPath();
 
+
     ctx.arc(
         x,
         y,
@@ -1734,8 +1890,10 @@ function drawSun(
         TWO_PI
     );
 
+
     ctx.fillStyle =
     sun;
+
 
     ctx.fill();
 
@@ -1745,6 +1903,10 @@ function drawSun(
 }
 
 
+
+/* =========================================================
+   PLANETA
+========================================================= */
 
 function drawPlanet(
     x,
@@ -1759,8 +1921,9 @@ function drawPlanet(
     ctx.shadowColor =
     color;
 
+
     ctx.shadowBlur =
-    14;
+    15;
 
 
     const gradient =
@@ -1773,15 +1936,18 @@ function drawPlanet(
         r
     );
 
+
     gradient.addColorStop(
         0,
         "#ffffff"
     );
 
+
     gradient.addColorStop(
         .3,
         color
     );
+
 
     gradient.addColorStop(
         1,
@@ -1791,6 +1957,7 @@ function drawPlanet(
 
     ctx.beginPath();
 
+
     ctx.arc(
         x,
         y,
@@ -1799,8 +1966,10 @@ function drawPlanet(
         TWO_PI
     );
 
+
     ctx.fillStyle =
     gradient;
+
 
     ctx.fill();
 
@@ -1811,6 +1980,10 @@ function drawPlanet(
 
 
 
+/* =========================================================
+   RÓTULO
+========================================================= */
+
 function drawLabel(
     text,
     x,
@@ -1820,34 +1993,41 @@ function drawLabel(
 
     ctx.save();
 
-    ctx.font =
-    "bold 14px Arial";
-
-    ctx.textAlign =
-    "center";
-
-    ctx.textBaseline =
-    "middle";
-
 
     ctx.fillStyle =
-    "rgba(0,0,0,.65)";
+    "rgba(1,7,18,.85)";
+
 
     ctx.beginPath();
+
 
     ctx.arc(
         x,
         y,
-        13,
+        14,
         0,
         TWO_PI
     );
+
 
     ctx.fill();
 
 
     ctx.fillStyle =
     color;
+
+
+    ctx.font =
+    "bold 15px Arial";
+
+
+    ctx.textAlign =
+    "center";
+
+
+    ctx.textBaseline =
+    "middle";
+
 
     ctx.fillText(
         text,
@@ -1862,14 +2042,17 @@ function drawLabel(
 
 
 
-/* ==========================================================
-   1ª LEI
-========================================================== */
+/* =========================================================
+   PRIMEIRA LEI
+========================================================= */
 
-function drawFirstLaw(time){
+function drawFirstLaw(
+    time
+){
 
     const w =
     canvas.clientWidth;
+
 
     const h =
     canvas.clientHeight;
@@ -1877,6 +2060,7 @@ function drawFirstLaw(time){
 
     const cx =
     w/2;
+
 
     const cy =
     h/2;
@@ -1896,7 +2080,8 @@ function drawFirstLaw(time){
 
 
     const b =
-    a*Math.sqrt(
+    a*
+    Math.sqrt(
         1-e*e
     );
 
@@ -1905,8 +2090,13 @@ function drawFirstLaw(time){
     a*e;
 
 
+    /*
+    SOL NO FOCO ESQUERDO
+    */
+
     const sunX =
     cx-c;
+
 
     const sunY =
     cy;
@@ -1936,26 +2126,33 @@ function drawFirstLaw(time){
 
     ctx.save();
 
+
     ctx.setLineDash(
         [6,7]
     );
 
+
     ctx.beginPath();
+
 
     ctx.moveTo(
         cx-a,
         cy
     );
 
+
     ctx.lineTo(
         cx+a,
         cy
     );
 
+
     ctx.strokeStyle =
-    "rgba(255,255,255,.16)";
+    "rgba(255,255,255,.17)";
+
 
     ctx.stroke();
+
 
     ctx.restore();
 
@@ -1967,6 +2164,7 @@ function drawFirstLaw(time){
 
     ctx.beginPath();
 
+
     ctx.arc(
         cx,
         cy,
@@ -1975,8 +2173,10 @@ function drawFirstLaw(time){
         TWO_PI
     );
 
+
     ctx.fillStyle =
-    "rgba(255,255,255,.45)";
+    "rgba(255,255,255,.38)";
+
 
     ctx.fill();
 
@@ -1988,6 +2188,7 @@ function drawFirstLaw(time){
 
     ctx.beginPath();
 
+
     ctx.arc(
         focus2X,
         cy,
@@ -1996,15 +2197,17 @@ function drawFirstLaw(time){
         TWO_PI
     );
 
+
     ctx.fillStyle =
     "#ff6478";
+
 
     ctx.fill();
 
 
 
     /*
-    SOL NO PRIMEIRO FOCO
+    SOL
     */
 
     drawSun(
@@ -2016,11 +2219,13 @@ function drawFirstLaw(time){
 
 
     /*
-    PLANETA
+    ANOMALIA MÉDIA CRESCE
+    UNIFORMEMENTE NO TEMPO.
     */
 
     const M =
     time*.55;
+
 
 
     const planet =
@@ -2033,29 +2238,36 @@ function drawFirstLaw(time){
     );
 
 
+
     /*
-    LINHA SOL - PLANETA
+    LINHA SOL-PLANETA
     */
 
     ctx.beginPath();
+
 
     ctx.moveTo(
         sunX,
         sunY
     );
 
+
     ctx.lineTo(
         planet.x,
         planet.y
     );
 
+
     ctx.strokeStyle =
     "rgba(255,255,255,.25)";
+
 
     ctx.lineWidth =
     1.4;
 
+
     ctx.stroke();
+
 
 
     drawPlanet(
@@ -2081,9 +2293,9 @@ function drawFirstLaw(time){
     r/a;
 
 
+
     /*
     VELOCIDADE NORMALIZADA
-    usando vis-viva
     */
 
     const v =
@@ -2095,16 +2307,19 @@ function drawFirstLaw(time){
     );
 
 
+
     document.getElementById(
         "distance"
     ).textContent =
-    rn.toFixed(2)+" UA";
+    rn.toFixed(2)
+    +" UA";
 
 
     document.getElementById(
         "velocity"
     ).textContent =
-    v.toFixed(2)+" v₀";
+    v.toFixed(2)
+    +" v₀";
 
 
     document.getElementById(
@@ -2122,87 +2337,52 @@ function drawFirstLaw(time){
 
 
 
-/* ==========================================================
-   2ª LEI
-========================================================== */
-
-/*
-Nesta simulação:
-
-período total = 24 h simuladas.
-
-Como a anomalia média aumenta uniformemente:
-
-M = 2π t / T
-
-então escolher um intervalo Δt significa:
-
-ΔM = 2π Δt / T
-
-A área varrida é:
-
-A = (a b / 2) ΔM
-
-porque:
-
-M = E - e sen(E)
-
-Isso permite demonstrar matematicamente
-a Lei das Áreas.
-*/
+/* =========================================================
+   SEGUNDA LEI
+========================================================= */
 
 const EXPERIMENT_PERIOD =
 24;
+
 
 const EXPERIMENT_E =
 0.62;
 
 
 
-let experimentA = {
+function createExperiment(){
 
-    startM:null,
+    return{
 
-    selected:false,
+        startM:null,
 
-    completed:false,
+        selected:false,
 
-    running:false,
+        completed:false,
 
-    elapsed:0,
+        running:false,
 
-    duration:1,
+        elapsed:0,
 
-    currentM:null,
+        duration:2,
 
-    endM:null,
+        currentM:null,
 
-    area:null
+        endM:null,
 
-};
+        area:null
+
+    };
+
+}
 
 
-let experimentB = {
+let experimentA =
+createExperiment();
 
-    startM:null,
 
-    selected:false,
-
-    completed:false,
-
-    running:false,
-
-    elapsed:0,
-
-    duration:1,
-
-    currentM:null,
-
-    endM:null,
-
-    area:null
-
-};
+let experimentB =
+createExperiment();
 
 
 let selectionMode =
@@ -2214,14 +2394,15 @@ false;
 
 
 
-/* ==========================================================
-   GEOMETRIA DA 2ª LEI
-========================================================== */
+/* =========================================================
+   GEOMETRIA DA SEGUNDA LEI
+========================================================= */
 
 function getExperimentGeometry(){
 
     const w =
     canvas.clientWidth;
+
 
     const h =
     canvas.clientHeight;
@@ -2229,6 +2410,7 @@ function getExperimentGeometry(){
 
     const cx =
     w/2;
+
 
     const cy =
     h/2;
@@ -2242,7 +2424,8 @@ function getExperimentGeometry(){
 
 
     const b =
-    a*Math.sqrt(
+    a*
+    Math.sqrt(
         1-
         EXPERIMENT_E*
         EXPERIMENT_E
@@ -2256,12 +2439,17 @@ function getExperimentGeometry(){
 
     return{
 
-        w,
-        h,
-        cx,
-        cy,
-        a,
-        b,
+        w:w,
+
+        h:h,
+
+        cx:cx,
+
+        cy:cy,
+
+        a:a,
+
+        b:b,
 
         sunX:
         cx-c,
@@ -2275,23 +2463,14 @@ function getExperimentGeometry(){
 
 
 
-/* ==========================================================
-   CONVERTER CLIQUE NA ÓRBITA EM M
-========================================================== */
+/* =========================================================
+   CLIQUE → ANOMALIA MÉDIA
 
-/*
-O aluno pode clicar próximo da elipse.
+   Como o Sol está no foco esquerdo:
 
-Primeiro encontramos aproximadamente
-a anomalia excêntrica E do ponto clicado.
+   M = E + e sen(E)
 
-x = cx + a cos(E)
-y = cy + b sin(E)
-
-Depois:
-
-M = E - e sin(E)
-*/
+========================================================= */
 
 function pointToMeanAnomaly(
     mouseX,
@@ -2314,6 +2493,11 @@ function pointToMeanAnomaly(
     )/g.b;
 
 
+    /*
+    Coordenada angular real
+    da elipse
+    */
+
     const E =
     Math.atan2(
         ny,
@@ -2321,22 +2505,29 @@ function pointToMeanAnomaly(
     );
 
 
+    /*
+    FOCO ESQUERDO:
+    sinal positivo.
+    */
+
     const M =
     E
-    -
+    +
     EXPERIMENT_E*
     Math.sin(E);
 
 
-    return normalizeAngle(M);
+    return normalizeAngle(
+        M
+    );
 
 }
 
 
 
-/* ==========================================================
-   DISTÂNCIA DO CLIQUE ATÉ A ELIPSE
-========================================================== */
+/* =========================================================
+   DISTÂNCIA DO CLIQUE ATÉ A ÓRBITA
+========================================================= */
 
 function distanceFromOrbit(
     x,
@@ -2346,14 +2537,6 @@ function distanceFromOrbit(
     const g =
     getExperimentGeometry();
 
-
-    /*
-    coordenadas normalizadas.
-
-    Se estiver exatamente na elipse:
-
-    sqrt(nx² + ny²) = 1
-    */
 
     const nx =
     (
@@ -2367,24 +2550,31 @@ function distanceFromOrbit(
     )/g.b;
 
 
-    const normalizedRadius =
+    const radius =
     Math.sqrt(
-        nx*nx+
+        nx*nx
+        +
         ny*ny
     );
 
 
     return Math.abs(
-        normalizedRadius-1
+        radius-1
     );
 
 }
 
 
 
-/* ==========================================================
-   DESENHAR SETOR VARRIDO
-========================================================== */
+/* =========================================================
+   ÁREA VARRIDA
+
+   É desenhada geometricamente
+   ligando:
+
+   FOCO → PONTO INICIAL → ARCO → PONTO FINAL → FOCO
+
+========================================================= */
 
 function drawSweptArea(
     startM,
@@ -2395,8 +2585,8 @@ function drawSweptArea(
 ){
 
     if(
-        startM === null ||
-        deltaM <= 0
+        startM===null ||
+        deltaM<=0
     ){
 
         return;
@@ -2406,9 +2596,9 @@ function drawSweptArea(
 
     const steps =
     Math.max(
-        30,
+        60,
         Math.ceil(
-            Math.abs(deltaM)*70
+            deltaM*120
         )
     );
 
@@ -2419,11 +2609,20 @@ function drawSweptArea(
     ctx.beginPath();
 
 
+    /*
+    COMEÇA NO SOL
+    */
+
     ctx.moveTo(
         geometry.sunX,
         geometry.sunY
     );
 
+
+
+    /*
+    PERCORRE A ÓRBITA
+    */
 
     for(
         let i=0;
@@ -2459,7 +2658,13 @@ function drawSweptArea(
     }
 
 
+
+    /*
+    VOLTA AO SOL
+    */
+
     ctx.closePath();
+
 
 
     ctx.globalAlpha =
@@ -2473,8 +2678,9 @@ function drawSweptArea(
     ctx.fill();
 
 
+
     ctx.globalAlpha =
-    .85;
+    .95;
 
 
     ctx.strokeStyle =
@@ -2482,7 +2688,7 @@ function drawSweptArea(
 
 
     ctx.lineWidth =
-    1.4;
+    1.7;
 
 
     ctx.stroke();
@@ -2494,20 +2700,69 @@ function drawSweptArea(
 
 
 
-/* ==========================================================
-   MARCADOR DO PONTO INICIAL
-========================================================== */
+/* =========================================================
+   LINHA SOL-PLANETA
+========================================================= */
+
+function drawRadiusLine(
+    M,
+    geometry,
+    color
+){
+
+    const p =
+    orbitalPosition(
+        M,
+        EXPERIMENT_E,
+        geometry.a,
+        geometry.cx,
+        geometry.cy
+    );
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+        geometry.sunX,
+        geometry.sunY
+    );
+
+
+    ctx.lineTo(
+        p.x,
+        p.y
+    );
+
+
+    ctx.strokeStyle =
+    color;
+
+
+    ctx.lineWidth =
+    1.5;
+
+
+    ctx.stroke();
+
+}
+
+
+
+/* =========================================================
+   PONTO INICIAL
+========================================================= */
 
 function drawStartPoint(
     exp,
     letter,
     color,
-    g
+    geometry
 ){
 
     if(
         !exp.selected ||
-        exp.startM === null
+        exp.startM===null
     ){
 
         return;
@@ -2519,48 +2774,46 @@ function drawStartPoint(
     orbitalPosition(
         exp.startM,
         EXPERIMENT_E,
-        g.a,
-        g.cx,
-        g.cy
+        geometry.a,
+        geometry.cx,
+        geometry.cy
     );
-
-
-    ctx.save();
 
 
     ctx.beginPath();
 
+
     ctx.arc(
         p.x,
         p.y,
-        6,
+        7,
         0,
         TWO_PI
     );
 
+
     ctx.fillStyle =
     color;
 
+
     ctx.fill();
+
 
 
     drawLabel(
         letter,
         p.x,
-        p.y-21,
+        p.y-27,
         color
     );
-
-
-    ctx.restore();
 
 }
 
 
 
-/* ==========================================================
-   ATUALIZAR UM EXPERIMENTO
-========================================================== */
+/* =========================================================
+   ATUALIZAÇÃO DO MOVIMENTO
+========================================================= */
 
 function updateExperiment(
     exp,
@@ -2578,20 +2831,20 @@ function updateExperiment(
 
 
     /*
-    A animação visual dura alguns segundos,
-    independentemente do número de horas
-    simuladas.
+    TEMPO VISUAL DA ANIMAÇÃO
 
-    Isso evita 1 hora real de espera.
+    Não são horas reais.
+
+    Apenas representação na tela.
     */
 
     const animationDuration =
     Math.max(
-        1.8,
+        2,
         Math.min(
-            5,
-            1.8+
-            exp.duration*.25
+            5.5,
+            2+
+            exp.duration*.28
         )
     );
 
@@ -2611,6 +2864,13 @@ function updateExperiment(
     );
 
 
+    /*
+    Como M cresce uniformemente:
+
+    ΔM =
+    2π × Δt / T
+    */
+
     const deltaM =
     TWO_PI*
     (
@@ -2626,31 +2886,38 @@ function updateExperiment(
     progress;
 
 
+
     if(progress>=1){
 
         exp.running =
         false;
 
+
         exp.completed =
         true;
 
+
         exp.endM =
-        exp.startM+
+        exp.startM
+        +
         deltaM;
 
 
+
         /*
-        Área normalizada.
+        ÁREA NORMALIZADA
 
-        adotamos a = 1 UA.
+        A =
+        ab/2 × ΔM
 
-        b = sqrt(1-e²).
-
-        A = ab/2 ΔM
+        usando:
+        a = 1
+        b = sqrt(1-e²)
         */
 
         const aPhysical =
         1;
+
 
         const bPhysical =
         Math.sqrt(
@@ -2677,14 +2944,34 @@ function updateExperiment(
 
 
 
-/* ==========================================================
-   DESENHAR 2ª LEI
-========================================================== */
+/* =========================================================
+   DESENHAR SEGUNDA LEI
+========================================================= */
 
-function drawSecondLaw(dt){
+function drawSecondLaw(
+    dt
+){
 
     const g =
     getExperimentGeometry();
+
+
+
+    /*
+    ATUALIZA PRIMEIRO
+    */
+
+    updateExperiment(
+        experimentA,
+        dt
+    );
+
+
+    updateExperiment(
+        experimentB,
+        dt
+    );
+
 
 
     /*
@@ -2701,7 +2988,7 @@ function drawSecondLaw(dt){
 
 
     /*
-    ÁREA A COMPLETA
+    ÁREA A FINALIZADA
     */
 
     if(
@@ -2721,7 +3008,7 @@ function drawSecondLaw(dt){
             deltaMA,
             g,
             "#55bfff",
-            .31
+            .35
         );
 
     }
@@ -2729,7 +3016,7 @@ function drawSecondLaw(dt){
 
 
     /*
-    ÁREA B COMPLETA
+    ÁREA B FINALIZADA
     */
 
     if(
@@ -2749,7 +3036,7 @@ function drawSecondLaw(dt){
             deltaMB,
             g,
             "#ff9e48",
-            .31
+            .35
         );
 
     }
@@ -2757,14 +3044,14 @@ function drawSecondLaw(dt){
 
 
     /*
-    ÁREA A DURANTE ANIMAÇÃO
+    ÁREA A EM CONSTRUÇÃO
     */
 
     if(
         experimentA.running
     ){
 
-        const currentDelta =
+        const delta =
         experimentA.currentM
         -
         experimentA.startM;
@@ -2772,10 +3059,10 @@ function drawSecondLaw(dt){
 
         drawSweptArea(
             experimentA.startM,
-            currentDelta,
+            delta,
             g,
             "#55bfff",
-            .35
+            .38
         );
 
     }
@@ -2783,14 +3070,14 @@ function drawSecondLaw(dt){
 
 
     /*
-    ÁREA B DURANTE ANIMAÇÃO
+    ÁREA B EM CONSTRUÇÃO
     */
 
     if(
         experimentB.running
     ){
 
-        const currentDelta =
+        const delta =
         experimentB.currentM
         -
         experimentB.startM;
@@ -2798,10 +3085,10 @@ function drawSecondLaw(dt){
 
         drawSweptArea(
             experimentB.startM,
-            currentDelta,
+            delta,
             g,
             "#ff9e48",
-            .35
+            .38
         );
 
     }
@@ -2809,13 +3096,13 @@ function drawSecondLaw(dt){
 
 
     /*
-    MARCADORES INICIAIS
+    MARCADORES
     */
 
     drawStartPoint(
         experimentA,
         "A",
-        "#66c7ff",
+        "#65caff",
         g
     );
 
@@ -2823,9 +3110,40 @@ function drawSecondLaw(dt){
     drawStartPoint(
         experimentB,
         "B",
-        "#ffae59",
+        "#ffad59",
         g
     );
+
+
+
+    /*
+    LINHAS FINAIS
+    */
+
+    if(
+        experimentA.completed
+    ){
+
+        drawRadiusLine(
+            experimentA.endM,
+            g,
+            "rgba(101,202,255,.75)"
+        );
+
+    }
+
+
+    if(
+        experimentB.completed
+    ){
+
+        drawRadiusLine(
+            experimentB.endM,
+            g,
+            "rgba(255,173,89,.75)"
+        );
+
+    }
 
 
 
@@ -2842,7 +3160,7 @@ function drawSecondLaw(dt){
 
 
     /*
-    PLANETA A DURANTE O MOVIMENTO
+    PLANETA A
     */
 
     if(
@@ -2859,25 +3177,11 @@ function drawSecondLaw(dt){
         );
 
 
-        ctx.beginPath();
-
-        ctx.moveTo(
-            g.sunX,
-            g.sunY
+        drawRadiusLine(
+            experimentA.currentM,
+            g,
+            "rgba(101,202,255,.8)"
         );
-
-        ctx.lineTo(
-            p.x,
-            p.y
-        );
-
-        ctx.strokeStyle =
-        "rgba(100,200,255,.7)";
-
-        ctx.lineWidth =
-        1.6;
-
-        ctx.stroke();
 
 
         drawPlanet(
@@ -2909,25 +3213,11 @@ function drawSecondLaw(dt){
         );
 
 
-        ctx.beginPath();
-
-        ctx.moveTo(
-            g.sunX,
-            g.sunY
+        drawRadiusLine(
+            experimentB.currentM,
+            g,
+            "rgba(255,173,89,.8)"
         );
-
-        ctx.lineTo(
-            p.x,
-            p.y
-        );
-
-        ctx.strokeStyle =
-        "rgba(255,170,90,.75)";
-
-        ctx.lineWidth =
-        1.6;
-
-        ctx.stroke();
 
 
         drawPlanet(
@@ -2942,24 +3232,24 @@ function drawSecondLaw(dt){
 
 
     /*
-    INSTRUÇÃO SOBRE O CANVAS
+    AVISO NO CANVAS
     */
 
     ctx.save();
 
 
     ctx.fillStyle =
-    "rgba(3,10,25,.82)";
+    "rgba(2,9,22,.82)";
 
 
     roundRect(
         ctx,
         15,
         15,
-        310,
+        330,
         selectionMode
-        ? 82
-        : 63,
+        ? 86
+        : 64,
         10
     );
 
@@ -2968,7 +3258,7 @@ function drawSecondLaw(dt){
 
 
     ctx.fillStyle =
-    "#ffffff";
+    "#fff";
 
 
     ctx.font =
@@ -2976,26 +3266,28 @@ function drawSecondLaw(dt){
 
 
     ctx.fillText(
-        "EXPERIMENTO DA LEI DAS ÁREAS",
+        "EXPERIMENTO — LEI DAS ÁREAS",
         29,
         39
     );
-
-
-    ctx.font =
-    "13px Arial";
 
 
     if(selectionMode){
 
         ctx.fillStyle =
         selectionMode==="A"
-        ? "#69c7ff"
-        : "#ffb35f";
+        ?
+        "#65caff"
+        :
+        "#ffad59";
+
+
+        ctx.font =
+        "13px Arial";
 
 
         ctx.fillText(
-            "Clique sobre a órbita para definir o ponto "
+            "Clique sobre a órbita para escolher o ponto "
             +selectionMode+".",
             29,
             63
@@ -3007,16 +3299,20 @@ function drawSecondLaw(dt){
 
 
         ctx.fillText(
-            "O ponto será fixado exatamente na elipse.",
+            "Depois defina o intervalo de tempo.",
             29,
-            82
+            83
         );
 
     }
     else{
 
         ctx.fillStyle =
-        "#a8bddd";
+        "#9fb5d8";
+
+
+        ctx.font =
+        "13px Arial";
 
 
         ctx.fillText(
@@ -3030,30 +3326,13 @@ function drawSecondLaw(dt){
 
     ctx.restore();
 
-
-
-    /*
-    ATUALIZA ANIMAÇÕES
-    */
-
-    updateExperiment(
-        experimentA,
-        dt
-    );
-
-
-    updateExperiment(
-        experimentB,
-        dt
-    );
-
 }
 
 
 
-/* ==========================================================
-   CLIQUE SOBRE A ÓRBITA
-========================================================== */
+/* =========================================================
+   CLIQUE NA ÓRBITA
+========================================================= */
 
 canvas.addEventListener(
     "click",
@@ -3083,11 +3362,6 @@ canvas.addEventListener(
         rect.top;
 
 
-        /*
-        Só aceita clique relativamente
-        próximo da linha da elipse.
-        */
-
         const distance =
         distanceFromOrbit(
             mouseX,
@@ -3097,7 +3371,7 @@ canvas.addEventListener(
 
         if(distance>.12){
 
-            const message =
+            const status =
             selectionMode==="A"
             ?
             document.getElementById(
@@ -3109,12 +3383,14 @@ canvas.addEventListener(
             );
 
 
-            message.textContent =
+            status.textContent =
             "Clique mais próximo da linha da órbita.";
+
 
             return;
 
         }
+
 
 
         const M =
@@ -3124,19 +3400,24 @@ canvas.addEventListener(
         );
 
 
+
         if(selectionMode==="A"){
 
             experimentA.startM =
             M;
 
+
             experimentA.selected =
             true;
+
 
             experimentA.completed =
             false;
 
+
             experimentA.running =
             false;
+
 
             experimentA.area =
             null;
@@ -3145,7 +3426,7 @@ canvas.addEventListener(
             document.getElementById(
                 "statusA"
             ).textContent =
-            "Ponto A selecionado. Agora defina o tempo e execute.";
+            "Ponto A selecionado. Defina o tempo e execute.";
 
         }
         else{
@@ -3153,14 +3434,18 @@ canvas.addEventListener(
             experimentB.startM =
             M;
 
+
             experimentB.selected =
             true;
+
 
             experimentB.completed =
             false;
 
+
             experimentB.running =
             false;
+
 
             experimentB.area =
             null;
@@ -3169,9 +3454,10 @@ canvas.addEventListener(
             document.getElementById(
                 "statusB"
             ).textContent =
-            "Ponto B selecionado. Agora defina o tempo e execute.";
+            "Ponto B selecionado. Defina o tempo e execute.";
 
         }
+
 
 
         selectionMode =
@@ -3190,9 +3476,9 @@ canvas.addEventListener(
 
 
 
-/* ==========================================================
-   SELECIONAR A
-========================================================== */
+/* =========================================================
+   ESCOLHER A
+========================================================= */
 
 document.getElementById(
     "selectA"
@@ -3212,16 +3498,16 @@ document.getElementById(
         document.getElementById(
             "statusA"
         ).textContent =
-        "Clique sobre a órbita para marcar o ponto A.";
+        "Clique diretamente sobre a órbita para marcar A.";
 
     }
 );
 
 
 
-/* ==========================================================
-   SELECIONAR B
-========================================================== */
+/* =========================================================
+   ESCOLHER B
+========================================================= */
 
 document.getElementById(
     "selectB"
@@ -3241,16 +3527,16 @@ document.getElementById(
         document.getElementById(
             "statusB"
         ).textContent =
-        "Clique sobre a órbita para marcar o ponto B.";
+        "Clique diretamente sobre a órbita para marcar B.";
 
     }
 );
 
 
 
-/* ==========================================================
-   EXECUTAR EXPERIMENTO
-========================================================== */
+/* =========================================================
+   INICIAR EXPERIMENTO
+========================================================= */
 
 function startExperiment(
     exp,
@@ -3270,7 +3556,8 @@ function startExperiment(
     ){
 
         status.textContent =
-        "Escolha primeiro um ponto na órbita.";
+        "Primeiro escolha um ponto na órbita.";
+
 
         return;
 
@@ -3286,51 +3573,64 @@ function startExperiment(
 
 
     if(
-        !Number.isFinite(duration) ||
+        !Number.isFinite(
+            duration
+        )
+        ||
         duration<=0
     ){
 
         status.textContent =
-        "Digite um intervalo de tempo maior que zero.";
+        "Digite um intervalo de tempo válido.";
+
 
         return;
 
     }
 
 
-    if(duration>12){
+    if(duration>10){
 
         duration =
-        12;
+        10;
+
 
         document.getElementById(
             inputId
         ).value =
-        12;
+        10;
 
     }
+
 
 
     exp.duration =
     duration;
 
+
     exp.elapsed =
     0;
+
 
     exp.running =
     true;
 
+
     exp.completed =
     false;
+
 
     exp.area =
     null;
 
+
     exp.currentM =
     exp.startM;
 
+
     exp.endM =
     null;
+
 
 
     experimentPaused =
@@ -3340,17 +3640,22 @@ function startExperiment(
     document.getElementById(
         "pauseExperiment"
     ).textContent =
-    "⏸ Pausar animação";
+    "⏸ Pausar";
 
 
     status.textContent =
     "Experimento em andamento...";
 
+
+    updateExperimentPanel();
+
 }
 
 
 
-/* A */
+/* =========================================================
+   EXECUTAR A
+========================================================= */
 
 document.getElementById(
     "playA"
@@ -3369,7 +3674,9 @@ document.getElementById(
 
 
 
-/* B */
+/* =========================================================
+   EXECUTAR B
+========================================================= */
 
 document.getElementById(
     "playB"
@@ -3388,9 +3695,9 @@ document.getElementById(
 
 
 
-/* ==========================================================
-   ATUALIZAR RESULTADOS
-========================================================== */
+/* =========================================================
+   RESULTADOS
+========================================================= */
 
 function updateExperimentPanel(){
 
@@ -3408,9 +3715,11 @@ function updateExperimentPanel(){
     ).textContent =
     experimentA.completed
     ?
-    experimentA.duration.toFixed(1)+" h"
+    experimentA.duration.toFixed(1)
+    +" h"
     :
     "—";
+
 
 
     document.getElementById(
@@ -3418,9 +3727,11 @@ function updateExperimentPanel(){
     ).textContent =
     experimentB.completed
     ?
-    experimentB.duration.toFixed(1)+" h"
+    experimentB.duration.toFixed(1)
+    +" h"
     :
     "—";
+
 
 
     document.getElementById(
@@ -3428,9 +3739,11 @@ function updateExperimentPanel(){
     ).textContent =
     areaA!==null
     ?
-    areaA.toFixed(4)+" UA²"
+    areaA.toFixed(4)
+    +" UA²"
     :
     "—";
+
 
 
     document.getElementById(
@@ -3438,15 +3751,18 @@ function updateExperimentPanel(){
     ).textContent =
     areaB!==null
     ?
-    areaB.toFixed(4)+" UA²"
+    areaB.toFixed(4)
+    +" UA²"
     :
     "—";
+
 
 
     const message =
     document.getElementById(
         "resultMessage"
     );
+
 
 
     if(
@@ -3463,9 +3779,11 @@ function updateExperimentPanel(){
         message.innerHTML =
         "Execute os dois experimentos para comparar as áreas.";
 
+
         return;
 
     }
+
 
 
     const mean =
@@ -3475,27 +3793,37 @@ function updateExperimentPanel(){
     )/2;
 
 
+
     const difference =
     mean>0
     ?
     Math.abs(
         areaA-areaB
-    )/mean*100
+    )/
+    mean*
+    100
     :
     0;
+
 
 
     document.getElementById(
         "resultDifference"
     ).textContent =
-    difference.toFixed(2)+"%";
+    difference.toFixed(2)
+    +"%";
+
 
 
     const sameTime =
     Math.abs(
-        experimentA.duration-
+        experimentA.duration
+        -
         experimentB.duration
-    )<0.000001;
+    )
+    <
+    0.000001;
+
 
 
     if(sameTime){
@@ -3503,19 +3831,31 @@ function updateExperimentPanel(){
         message.innerHTML =
 
         `
-        <strong style="color:#6be3ae">
-        ✓ 2ª Lei de Kepler verificada!
+        <strong
+        style="color:#68e2ad;">
+
+        ✓ Segunda Lei verificada
+
         </strong>
+
+        <br><br>
+
+        Δt₁ =
+        Δt₂ =
+        ${experimentA.duration.toFixed(1)} h
 
         <br>
 
-        Os dois intervalos possuem
+        Portanto:
+
         <strong>
-        ${experimentA.duration.toFixed(1)} h
+        A₁ = A₂
         </strong>
 
-        e produziram áreas iguais,
-        mesmo partindo de regiões diferentes da órbita.
+        <br><br>
+
+        Observe que os formatos dos setores
+        são diferentes, mas suas áreas são iguais.
         `;
 
     }
@@ -3524,48 +3864,50 @@ function updateExperimentPanel(){
         message.innerHTML =
 
         `
-        Os tempos escolhidos são diferentes.
+        Os intervalos de tempo são diferentes.
 
         <br><br>
 
-        Para testar diretamente a 2ª Lei,
-        utilize o <strong>mesmo intervalo de tempo</strong>
-        nos experimentos A e B.
+        Para verificar diretamente a
+        <strong>2ª Lei de Kepler</strong>,
+        use o mesmo tempo nos dois experimentos.
         `;
 
     }
 
 
-    document.getElementById(
-        "statusA"
-    ).textContent =
-    experimentA.completed
-    ?
-    "Experimento A concluído."
-    :
-    document.getElementById(
-        "statusA"
-    ).textContent;
+
+    if(
+        experimentA.completed
+    ){
+
+        document.getElementById(
+            "statusA"
+        ).textContent =
+        "Experimento A concluído.";
+
+    }
 
 
-    document.getElementById(
-        "statusB"
-    ).textContent =
-    experimentB.completed
-    ?
-    "Experimento B concluído."
-    :
-    document.getElementById(
-        "statusB"
-    ).textContent;
+
+    if(
+        experimentB.completed
+    ){
+
+        document.getElementById(
+            "statusB"
+        ).textContent =
+        "Experimento B concluído.";
+
+    }
 
 }
 
 
 
-/* ==========================================================
+/* =========================================================
    LIMPAR
-========================================================== */
+========================================================= */
 
 document.getElementById(
     "clearExperiments"
@@ -3573,50 +3915,12 @@ document.getElementById(
     "click",
     ()=>{
 
-        experimentA = {
-
-            startM:null,
-
-            selected:false,
-
-            completed:false,
-
-            running:false,
-
-            elapsed:0,
-
-            duration:1,
-
-            currentM:null,
-
-            endM:null,
-
-            area:null
-
-        };
+        experimentA =
+        createExperiment();
 
 
-        experimentB = {
-
-            startM:null,
-
-            selected:false,
-
-            completed:false,
-
-            running:false,
-
-            elapsed:0,
-
-            duration:1,
-
-            currentM:null,
-
-            endM:null,
-
-            area:null
-
-        };
+        experimentB =
+        createExperiment();
 
 
         selectionMode =
@@ -3630,6 +3934,18 @@ document.getElementById(
         canvas.classList.remove(
             "selecting"
         );
+
+
+        document.getElementById(
+            "timeA"
+        ).value =
+        2;
+
+
+        document.getElementById(
+            "timeB"
+        ).value =
+        2;
 
 
         document.getElementById(
@@ -3647,7 +3963,7 @@ document.getElementById(
         document.getElementById(
             "pauseExperiment"
         ).textContent =
-        "⏸ Pausar animação";
+        "⏸ Pausar";
 
 
         updateExperimentPanel();
@@ -3657,9 +3973,9 @@ document.getElementById(
 
 
 
-/* ==========================================================
+/* =========================================================
    PAUSAR EXPERIMENTO
-========================================================== */
+========================================================= */
 
 document.getElementById(
     "pauseExperiment"
@@ -3676,18 +3992,18 @@ document.getElementById(
         ).textContent =
         experimentPaused
         ?
-        "▶ Continuar animação"
+        "▶ Continuar"
         :
-        "⏸ Pausar animação";
+        "⏸ Pausar";
 
     }
 );
 
 
 
-/* ==========================================================
+/* =========================================================
    RETÂNGULO ARREDONDADO
-========================================================== */
+========================================================= */
 
 function roundRect(
     context,
@@ -3700,15 +4016,18 @@ function roundRect(
 
     context.beginPath();
 
+
     context.moveTo(
         x+radius,
         y
     );
 
+
     context.lineTo(
         x+width-radius,
         y
     );
+
 
     context.quadraticCurveTo(
         x+width,
@@ -3717,10 +4036,12 @@ function roundRect(
         y+radius
     );
 
+
     context.lineTo(
         x+width,
         y+height-radius
     );
+
 
     context.quadraticCurveTo(
         x+width,
@@ -3729,10 +4050,12 @@ function roundRect(
         y+height
     );
 
+
     context.lineTo(
         x+radius,
         y+height
     );
+
 
     context.quadraticCurveTo(
         x,
@@ -3741,10 +4064,12 @@ function roundRect(
         y+height-radius
     );
 
+
     context.lineTo(
         x,
         y+radius
     );
+
 
     context.quadraticCurveTo(
         x,
@@ -3752,6 +4077,7 @@ function roundRect(
         x+radius,
         y
     );
+
 
     context.closePath();
 
@@ -3759,14 +4085,17 @@ function roundRect(
 
 
 
-/* ==========================================================
-   3ª LEI
-========================================================== */
+/* =========================================================
+   TERCEIRA LEI
+========================================================= */
 
-function drawThirdLaw(time){
+function drawThirdLaw(
+    time
+){
 
     const w =
     canvas.clientWidth;
+
 
     const h =
     canvas.clientHeight;
@@ -3774,6 +4103,7 @@ function drawThirdLaw(time){
 
     const cx =
     w/2;
+
 
     const cy =
     h/2;
@@ -3786,11 +4116,13 @@ function drawThirdLaw(time){
     )/8.8;
 
 
+
     drawSun(
         cx,
         cy,
         18
     );
+
 
 
     const planets=[
@@ -3828,14 +4160,21 @@ function drawThirdLaw(time){
     ];
 
 
+
     planets.forEach(
-        (p,index)=>{
+        (
+            p,
+            index
+        )=>{
 
             const radius =
-            p.a*scale;
+            p.a*
+            scale;
+
 
 
             ctx.beginPath();
+
 
             ctx.arc(
                 cx,
@@ -3853,6 +4192,7 @@ function drawThirdLaw(time){
             ctx.stroke();
 
 
+
             /*
             T² = a³
 
@@ -3866,10 +4206,12 @@ function drawThirdLaw(time){
             );
 
 
+
             const angle =
             time*.72/T
             +
             index*.65;
+
 
 
             const x =
@@ -3878,10 +4220,12 @@ function drawThirdLaw(time){
             radius;
 
 
+
             const y =
             cy+
             Math.sin(angle)*
             radius;
+
 
 
             drawPlanet(
@@ -3890,6 +4234,7 @@ function drawThirdLaw(time){
                 8+index,
                 p.color
             );
+
 
 
             ctx.fillStyle =
@@ -3903,10 +4248,14 @@ function drawThirdLaw(time){
             ctx.fillText(
 
                 "Planeta "
-                +p.name
-                +"   T = "
-                +T.toFixed(2)
-                +" anos",
+                +
+                p.name
+                +
+                "   T = "
+                +
+                T.toFixed(2)
+                +
+                " anos",
 
                 18,
 
@@ -3917,6 +4266,7 @@ function drawThirdLaw(time){
 
         }
     );
+
 
 
     document.getElementById(
@@ -3946,9 +4296,9 @@ function drawThirdLaw(time){
 
 
 
-/* ==========================================================
+/* =========================================================
    TEXTOS
-========================================================== */
+========================================================= */
 
 function updateLawText(){
 
@@ -4017,8 +4367,11 @@ function updateLawText(){
 
         `
         Os planetas descrevem órbitas
-        <strong>elípticas</strong> ao redor do Sol.
-        O Sol ocupa <strong>um dos focos</strong>
+        <strong>elípticas</strong>
+        ao redor do Sol.
+
+        O Sol ocupa
+        <strong>um dos focos</strong>
         da elipse.
         `;
 
@@ -4030,13 +4383,15 @@ function updateLawText(){
         info.innerHTML =
 
         `
-        Altere a excentricidade e observe
-        a mudança da forma da órbita.
+        Altere a excentricidade
+        e observe a forma da órbita.
 
-        Quando <strong>e = 0</strong>,
+        Quando
+        <strong>e = 0</strong>,
         a órbita é circular.
+
         Quanto maior a excentricidade,
-        mais alongada se torna a elipse.
+        mais alongada é a órbita.
         `;
 
 
@@ -4098,8 +4453,11 @@ function updateLawText(){
 
         `
         O segmento que liga o planeta ao Sol
-        varre <strong>áreas iguais em intervalos
-        de tempo iguais</strong>.
+        varre
+        <strong>
+        áreas iguais em intervalos
+        de tempo iguais.
+        </strong>
         `;
 
 
@@ -4110,15 +4468,22 @@ function updateLawText(){
         info.innerHTML =
 
         `
-        Realize dois experimentos em regiões
-        diferentes da órbita.
+        Escolha dois pontos diferentes
+        da órbita.
 
-        Escolha diretamente os pontos iniciais
-        e determine quanto tempo o planeta deve
-        se movimentar.
+        Use o mesmo intervalo de tempo
+        nos dois experimentos.
 
-        Use tempos iguais para verificar
-        experimentalmente a 2ª Lei.
+        Próximo ao Sol,
+        o planeta percorre um arco maior.
+
+        Mais distante,
+        percorre um arco menor.
+
+        Mesmo assim,
+        <strong>
+        as áreas varridas são iguais.
+        </strong>
         `;
 
 
@@ -4158,8 +4523,7 @@ function updateLawText(){
         </span>
 
         <span>
-        Clique diretamente sobre a órbita
-        para escolher cada ponto inicial.
+        Tempos iguais → áreas iguais
         </span>
         `;
 
@@ -4177,7 +4541,7 @@ function updateLawText(){
 
         `
         Quanto maior a distância média
-        do planeta ao Sol,
+        de um planeta ao Sol,
         maior será seu período orbital.
         `;
 
@@ -4189,9 +4553,11 @@ function updateLawText(){
         info.innerHTML =
 
         `
-        Para corpos orbitando a mesma estrela,
-        a razão entre o quadrado do período
-        e o cubo do semieixo maior
+        Para corpos orbitando
+        a mesma estrela,
+        a razão entre o quadrado
+        do período e o cubo
+        do semieixo maior
         permanece constante.
         `;
 
@@ -4213,7 +4579,6 @@ function updateLawText(){
 
 
         legend.innerHTML =
-
         `
         Planetas em órbitas maiores
         apresentam períodos orbitais maiores.
@@ -4225,9 +4590,9 @@ function updateLawText(){
 
 
 
-/* ==========================================================
+/* =========================================================
    ABAS
-========================================================== */
+========================================================= */
 
 document
 .querySelectorAll(
@@ -4289,9 +4654,9 @@ document
 
 
 
-/* ==========================================================
-   CONTROLES
-========================================================== */
+/* =========================================================
+   CONTROLES GERAIS
+========================================================= */
 
 playButton.addEventListener(
     "click",
@@ -4358,13 +4723,17 @@ speedSlider.addEventListener(
 
 
 
-/* ==========================================================
-   ANIMAÇÃO
-========================================================== */
+/* =========================================================
+   LOOP PRINCIPAL
+========================================================= */
 
-function animate(timestamp){
+function animate(
+    timestamp
+){
 
-    if(!previousTimestamp){
+    if(
+        !previousTimestamp
+    ){
 
         previousTimestamp =
         timestamp;
@@ -4390,18 +4759,21 @@ function animate(timestamp){
     );
 
 
+
     if(
         running &&
         currentLaw!==2
     ){
 
         simulationTime +=
+
         dt*
         Number(
             speedSlider.value
         );
 
     }
+
 
 
     ctx.clearRect(
@@ -4413,7 +4785,9 @@ function animate(timestamp){
 
 
 
-    if(currentLaw===1){
+    if(
+        currentLaw===1
+    ){
 
         drawFirstLaw(
             simulationTime
@@ -4422,7 +4796,9 @@ function animate(timestamp){
     }
 
 
-    else if(currentLaw===2){
+    else if(
+        currentLaw===2
+    ){
 
         drawSecondLaw(
             dt
@@ -4440,6 +4816,7 @@ function animate(timestamp){
     }
 
 
+
     requestAnimationFrame(
         animate
     );
@@ -4448,17 +4825,20 @@ function animate(timestamp){
 
 
 
-/* ==========================================================
+/* =========================================================
    INICIAR
-========================================================== */
+========================================================= */
 
 updateLawText();
 
+
 updateExperimentPanel();
+
 
 requestAnimationFrame(
     animate
 );
+
 
 </script>
 
