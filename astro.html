@@ -1,0 +1,4468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Simulador das Leis de Kepler</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+    color:white;
+
+    background:
+    radial-gradient(
+        circle at 50% 20%,
+        #102b5c 0%,
+        #07162f 38%,
+        #020711 82%
+    );
+
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   ESTRELAS
+===================================================== */
+
+.stars{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:0;
+
+    pointer-events:none;
+
+}
+
+.star{
+
+    position:absolute;
+
+    background:white;
+
+    border-radius:50%;
+
+    animation:
+    twinkle 3s infinite alternate;
+
+}
+
+@keyframes twinkle{
+
+    from{
+        opacity:.15;
+    }
+
+    to{
+        opacity:.9;
+    }
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:1450px;
+
+    margin:auto;
+
+    padding:20px;
+
+}
+
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+header{
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+}
+
+header h1{
+
+    font-size:
+    clamp(
+        28px,
+        4vw,
+        44px
+    );
+
+    margin-bottom:7px;
+
+}
+
+header p{
+
+    color:#c7d8f5;
+
+}
+
+
+/* =====================================================
+   ABAS
+===================================================== */
+
+.tabs{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin:20px 0;
+
+}
+
+.tab{
+
+    min-width:150px;
+
+    padding:13px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#15386f;
+
+    color:white;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.tab:hover{
+
+    background:#2459aa;
+
+}
+
+.tab.active{
+
+    background:#3477e8;
+
+    box-shadow:
+    0 0 18px
+    rgba(65,130,255,.55);
+
+}
+
+
+/* =====================================================
+   PRINCIPAL
+===================================================== */
+
+.main{
+
+    display:grid;
+
+    grid-template-columns:
+    minmax(570px,1.45fr)
+    minmax(330px,.65fr);
+
+    gap:18px;
+
+}
+
+.card{
+
+    background:
+    rgba(6,17,39,.88);
+
+    border:
+    1px solid
+    rgba(120,165,255,.25);
+
+    border-radius:18px;
+
+    box-shadow:
+    0 15px 40px
+    rgba(0,0,0,.35);
+
+}
+
+
+/* =====================================================
+   SIMULAÇÃO
+===================================================== */
+
+.simulation{
+
+    padding:12px;
+
+}
+
+canvas{
+
+    width:100%;
+
+    height:610px;
+
+    display:block;
+
+    border-radius:14px;
+
+    cursor:default;
+
+    background:
+
+    radial-gradient(
+        circle at center,
+        rgba(20,51,108,.30),
+        rgba(1,5,14,.83)
+    );
+
+}
+
+canvas.selecting{
+
+    cursor:crosshair;
+
+}
+
+.legend{
+
+    min-height:45px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    padding:9px;
+
+    color:#c6d5ee;
+
+    font-size:13px;
+
+}
+
+.dot{
+
+    display:inline-block;
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    margin-right:5px;
+
+}
+
+
+/* =====================================================
+   PAINEL
+===================================================== */
+
+.sidebar{
+
+    padding:21px;
+
+}
+
+.sidebar h2{
+
+    color:#83b2ff;
+
+    margin-bottom:10px;
+
+}
+
+.description{
+
+    line-height:1.55;
+
+    color:#e0e8ff;
+
+}
+
+.formula{
+
+    margin-top:15px;
+
+    padding:15px;
+
+    background:#020817;
+
+    border-radius:10px;
+
+    color:#ffd76c;
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+.info{
+
+    margin-top:15px;
+
+    padding:14px;
+
+    background:
+    rgba(53,108,210,.13);
+
+    border-left:
+    4px solid #4f91ff;
+
+    border-radius:11px;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+
+/* =====================================================
+   CONTROLES
+===================================================== */
+
+.controls{
+
+    margin-top:20px;
+
+}
+
+.control{
+
+    margin-bottom:18px;
+
+}
+
+.control label{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:7px;
+
+    font-size:14px;
+
+    color:#d8e3fa;
+
+}
+
+input[type="range"]{
+
+    width:100%;
+
+    accent-color:#438cff;
+
+}
+
+input[type="number"]{
+
+    width:100%;
+
+    padding:11px;
+
+    border-radius:8px;
+
+    border:
+    1px solid
+    #315282;
+
+    outline:none;
+
+    background:#061126;
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+input[type="number"]:focus{
+
+    border-color:#5593ff;
+
+}
+
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+.buttons{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:9px;
+
+}
+
+button.control-btn{
+
+    min-height:44px;
+
+    padding:11px;
+
+    border:0;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:#2459a8;
+
+}
+
+button.control-btn:hover{
+
+    background:#3477d8;
+
+}
+
+button.green{
+
+    background:#13825d;
+
+}
+
+button.green:hover{
+
+    background:#18a576;
+
+}
+
+button.orange{
+
+    background:#b06717;
+
+}
+
+button.orange:hover{
+
+    background:#d47d1d;
+
+}
+
+button.red{
+
+    background:#7d3142;
+
+}
+
+button.red:hover{
+
+    background:#a63f55;
+
+}
+
+
+/* =====================================================
+   DADOS
+===================================================== */
+
+.data{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:9px;
+
+    margin-top:15px;
+
+}
+
+.dataBox{
+
+    background:#071127;
+
+    padding:10px;
+
+    border-radius:9px;
+
+    text-align:center;
+
+}
+
+.dataBox small{
+
+    display:block;
+
+    color:#8eabd9;
+
+    margin-bottom:4px;
+
+}
+
+.dataBox strong{
+
+    font-size:17px;
+
+}
+
+
+/* =====================================================
+   EXPERIMENTO 2ª LEI
+===================================================== */
+
+.experimentPanel{
+
+    display:none;
+
+    margin-top:18px;
+
+}
+
+.experimentNotice{
+
+    padding:12px;
+
+    background:
+    rgba(40,100,180,.15);
+
+    border:
+    1px solid
+    rgba(90,150,255,.25);
+
+    border-radius:10px;
+
+    color:#dbe8ff;
+
+    line-height:1.45;
+
+    font-size:13px;
+
+    margin-bottom:12px;
+
+}
+
+.experimentCard{
+
+    padding:14px;
+
+    background:#071328;
+
+    border:
+    1px solid
+    rgba(120,160,230,.25);
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
+}
+
+.experimentCard h3{
+
+    margin-bottom:11px;
+
+    font-size:16px;
+
+}
+
+.experimentCard.a h3{
+
+    color:#69c7ff;
+
+}
+
+.experimentCard.b h3{
+
+    color:#ffb35f;
+
+}
+
+.expStatus{
+
+    margin-top:8px;
+
+    padding:8px;
+
+    border-radius:7px;
+
+    background:#030b19;
+
+    color:#b9cae7;
+
+    font-size:13px;
+
+    text-align:center;
+
+}
+
+.expButtons{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:8px;
+
+    margin-top:10px;
+
+}
+
+.compareBox{
+
+    padding:15px;
+
+    margin-top:13px;
+
+    border-radius:12px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(38,90,170,.2),
+        rgba(14,36,76,.45)
+    );
+
+    border:
+    1px solid
+    rgba(100,150,240,.3);
+
+}
+
+.compareTitle{
+
+    text-align:center;
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+
+}
+
+.compareGrid{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:8px;
+
+}
+
+.compareCell{
+
+    background:
+    rgba(2,9,22,.72);
+
+    border-radius:8px;
+
+    padding:9px;
+
+    text-align:center;
+
+}
+
+.compareCell small{
+
+    display:block;
+
+    color:#91acd4;
+
+}
+
+.compareCell strong{
+
+    display:block;
+
+    margin-top:4px;
+
+}
+
+.resultMessage{
+
+    margin-top:11px;
+
+    min-height:49px;
+
+    padding:11px;
+
+    background:#020916;
+
+    border-radius:9px;
+
+    line-height:1.4;
+
+    text-align:center;
+
+    color:#d9e5f8;
+
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:980px){
+
+    .main{
+
+        grid-template-columns:1fr;
+
+    }
+
+    canvas{
+
+        height:530px;
+
+    }
+
+}
+
+@media(max-width:620px){
+
+    .container{
+
+        padding:10px;
+
+    }
+
+    canvas{
+
+        height:420px;
+
+    }
+
+    .data{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .compareGrid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div
+class="stars"
+id="stars">
+</div>
+
+
+<div class="container">
+
+
+<header>
+
+<h1>🌌 Leis de Kepler</h1>
+
+<p>
+Explore o movimento orbital dos planetas
+e investigue experimentalmente as leis de Kepler.
+</p>
+
+</header>
+
+
+
+<div class="tabs">
+
+<button
+class="tab active"
+data-law="1">
+
+1ª Lei
+
+</button>
+
+<button
+class="tab"
+data-law="2">
+
+2ª Lei
+
+</button>
+
+<button
+class="tab"
+data-law="3">
+
+3ª Lei
+
+</button>
+
+</div>
+
+
+
+<div class="main">
+
+
+<!-- ===================================================
+     CANVAS
+=================================================== -->
+
+<div class="card simulation">
+
+<canvas id="canvas"></canvas>
+
+<div
+class="legend"
+id="legend">
+</div>
+
+</div>
+
+
+
+<!-- ===================================================
+     PAINEL
+=================================================== -->
+
+<div class="card sidebar">
+
+
+<h2 id="lawTitle">
+</h2>
+
+
+<p
+class="description"
+id="lawDescription">
+</p>
+
+
+<div
+class="formula"
+id="formula">
+</div>
+
+
+<div
+class="info"
+id="info">
+</div>
+
+
+
+<!-- ===================================================
+     CONTROLES GERAIS
+=================================================== -->
+
+<div
+class="controls"
+id="generalControls">
+
+
+<div
+class="control"
+id="eccControl">
+
+<label>
+
+<span>
+Excentricidade
+</span>
+
+<strong
+id="eccValue">
+0.45
+</strong>
+
+</label>
+
+<input
+type="range"
+id="ecc"
+min="0"
+max="0.78"
+step="0.01"
+value="0.45">
+
+</div>
+
+
+
+<div class="control">
+
+<label>
+
+<span>
+Velocidade da animação
+</span>
+
+<strong
+id="speedValue">
+1.0×
+</strong>
+
+</label>
+
+<input
+type="range"
+id="speed"
+min="0.2"
+max="3"
+step="0.1"
+value="1">
+
+</div>
+
+
+
+<div
+class="buttons"
+id="generalButtons">
+
+<button
+class="control-btn"
+id="playButton">
+
+⏸ Pausar
+
+</button>
+
+
+<button
+class="control-btn"
+id="resetButton">
+
+↻ Reiniciar
+
+</button>
+
+</div>
+
+
+
+<div
+class="data"
+id="generalData">
+
+
+<div class="dataBox">
+
+<small>
+Distância planeta-Sol
+</small>
+
+<strong id="distance">
+—
+</strong>
+
+</div>
+
+
+<div class="dataBox">
+
+<small>
+Velocidade orbital
+</small>
+
+<strong id="velocity">
+—
+</strong>
+
+</div>
+
+
+<div class="dataBox">
+
+<small>
+Semieixo maior
+</small>
+
+<strong id="majorAxis">
+—
+</strong>
+
+</div>
+
+
+<div class="dataBox">
+
+<small>
+Período
+</small>
+
+<strong id="period">
+—
+</strong>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ===================================================
+     EXPERIMENTO DA 2ª LEI
+=================================================== -->
+
+<div
+class="experimentPanel"
+id="experimentPanel">
+
+
+<div class="experimentNotice">
+
+<strong>Como realizar:</strong>
+
+primeiro escolha o experimento A ou B,
+depois clique diretamente sobre a órbita
+para definir o ponto inicial.
+Digite o intervalo de tempo
+e pressione Executar.
+
+<br><br>
+
+A órbita completa corresponde a
+<strong>24 horas simuladas</strong>.
+
+</div>
+
+
+
+<!-- EXPERIMENTO A -->
+
+<div
+class="experimentCard a">
+
+<h3>
+🔵 Experimento A
+</h3>
+
+
+<div class="expButtons">
+
+<button
+class="control-btn"
+id="selectA">
+
+📍 Escolher ponto A
+
+</button>
+
+
+<button
+class="control-btn green"
+id="playA">
+
+▶ Executar A
+
+</button>
+
+</div>
+
+
+<div
+class="control"
+style="margin-top:12px;">
+
+<label>
+
+<span>
+Intervalo de tempo
+</span>
+
+<strong>
+horas
+</strong>
+
+</label>
+
+<input
+type="number"
+id="timeA"
+min="0.1"
+max="12"
+step="0.1"
+value="1">
+
+</div>
+
+
+<div
+class="expStatus"
+id="statusA">
+
+Ponto A ainda não selecionado.
+
+</div>
+
+</div>
+
+
+
+<!-- EXPERIMENTO B -->
+
+<div
+class="experimentCard b">
+
+<h3>
+🟠 Experimento B
+</h3>
+
+
+<div class="expButtons">
+
+<button
+class="control-btn orange"
+id="selectB">
+
+📍 Escolher ponto B
+
+</button>
+
+
+<button
+class="control-btn green"
+id="playB">
+
+▶ Executar B
+
+</button>
+
+</div>
+
+
+<div
+class="control"
+style="margin-top:12px;">
+
+<label>
+
+<span>
+Intervalo de tempo
+</span>
+
+<strong>
+horas
+</strong>
+
+</label>
+
+<input
+type="number"
+id="timeB"
+min="0.1"
+max="12"
+step="0.1"
+value="1">
+
+</div>
+
+
+<div
+class="expStatus"
+id="statusB">
+
+Ponto B ainda não selecionado.
+
+</div>
+
+</div>
+
+
+
+<!-- COMPARAÇÃO -->
+
+<div class="compareBox">
+
+
+<div class="compareTitle">
+
+Comparação das áreas
+
+</div>
+
+
+<div class="compareGrid">
+
+
+<div class="compareCell">
+
+<small>
+Tempo A
+</small>
+
+<strong id="resultTimeA">
+—
+</strong>
+
+</div>
+
+
+<div class="compareCell">
+
+<small>
+Área A₁
+</small>
+
+<strong id="resultAreaA">
+—
+</strong>
+
+</div>
+
+
+<div class="compareCell">
+
+<small>
+Tempo B
+</small>
+
+<strong id="resultTimeB">
+—
+</strong>
+
+</div>
+
+
+<div class="compareCell">
+
+<small>
+Área A₂
+</small>
+
+<strong id="resultAreaB">
+—
+</strong>
+
+</div>
+
+
+<div class="compareCell">
+
+<small>
+Diferença
+</small>
+
+<strong id="resultDifference">
+—
+</strong>
+
+</div>
+
+
+<div class="compareCell">
+
+<small>
+Período orbital
+</small>
+
+<strong>
+24 h
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div
+class="resultMessage"
+id="resultMessage">
+
+Execute os dois experimentos
+para comparar as áreas.
+
+</div>
+
+
+<div
+class="buttons"
+style="margin-top:10px;">
+
+<button
+class="control-btn red"
+id="clearExperiments">
+
+↻ Limpar experimento
+
+</button>
+
+
+<button
+class="control-btn"
+id="pauseExperiment">
+
+⏸ Pausar animação
+
+</button>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================================
+   ELEMENTOS
+========================================================== */
+
+const canvas =
+document.getElementById("canvas");
+
+const ctx =
+canvas.getContext("2d");
+
+
+const eccSlider =
+document.getElementById("ecc");
+
+const speedSlider =
+document.getElementById("speed");
+
+
+const playButton =
+document.getElementById("playButton");
+
+const resetButton =
+document.getElementById("resetButton");
+
+
+let currentLaw = 1;
+
+let running = true;
+
+let simulationTime = 0;
+
+let previousTimestamp = 0;
+
+
+
+/* ==========================================================
+   ESTRELAS
+========================================================== */
+
+const stars =
+document.getElementById("stars");
+
+
+for(let i=0;i<135;i++){
+
+    const star =
+    document.createElement("div");
+
+    star.className =
+    "star";
+
+    const size =
+    Math.random()*2.2+.5;
+
+    star.style.width =
+    size+"px";
+
+    star.style.height =
+    size+"px";
+
+    star.style.left =
+    Math.random()*100+"%";
+
+    star.style.top =
+    Math.random()*100+"%";
+
+    star.style.animationDelay =
+    Math.random()*3+"s";
+
+    stars.appendChild(star);
+
+}
+
+
+
+/* ==========================================================
+   CANVAS
+========================================================== */
+
+function setupCanvas(){
+
+    const rect =
+    canvas.getBoundingClientRect();
+
+    const dpr =
+    window.devicePixelRatio || 1;
+
+    canvas.width =
+    Math.round(
+        rect.width*dpr
+    );
+
+    canvas.height =
+    Math.round(
+        rect.height*dpr
+    );
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+}
+
+window.addEventListener(
+    "resize",
+    setupCanvas
+);
+
+setupCanvas();
+
+
+
+/* ==========================================================
+   MATEMÁTICA ORBITAL
+========================================================== */
+
+const TWO_PI =
+Math.PI*2;
+
+
+function normalizeAngle(angle){
+
+    return (
+        (angle % TWO_PI)
+        + TWO_PI
+    ) % TWO_PI;
+
+}
+
+
+
+/*
+Equação de Kepler
+
+M = E - e sen(E)
+*/
+
+function solveKepler(M,e){
+
+    M =
+    normalizeAngle(M);
+
+    let E =
+    M;
+
+    for(let i=0;i<15;i++){
+
+        const f =
+        E
+        -e*Math.sin(E)
+        -M;
+
+        const fp =
+        1
+        -e*Math.cos(E);
+
+        E -=
+        f/fp;
+
+    }
+
+    return E;
+
+}
+
+
+
+/*
+IMPORTANTE:
+
+A elipse é desenhada com centro geométrico
+em cx,cy.
+
+Portanto:
+
+x = cx + a cos(E)
+y = cy + b sen(E)
+
+O SOL é que fica deslocado para o foco.
+
+Isso corrige o problema anterior em que
+o planeta ficava fora da órbita.
+*/
+
+function orbitalPosition(
+    M,
+    e,
+    a,
+    cx,
+    cy
+){
+
+    const E =
+    solveKepler(M,e);
+
+    const b =
+    a*Math.sqrt(
+        1-e*e
+    );
+
+    return{
+
+        E:E,
+
+        x:
+        cx
+        +a*Math.cos(E),
+
+        y:
+        cy
+        +b*Math.sin(E)
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   DESENHOS
+========================================================== */
+
+function drawOrbit(
+    cx,
+    cy,
+    a,
+    b
+){
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        cx,
+        cy,
+        a,
+        b,
+        0,
+        0,
+        TWO_PI
+    );
+
+    ctx.strokeStyle =
+    "rgba(100,160,245,.75)";
+
+    ctx.lineWidth =
+    2;
+
+    ctx.stroke();
+
+}
+
+
+
+function drawSun(
+    x,
+    y,
+    r
+){
+
+    ctx.save();
+
+
+    const glow =
+    ctx.createRadialGradient(
+        x,y,
+        0,
+        x,y,
+        r*3.3
+    );
+
+    glow.addColorStop(
+        0,
+        "rgba(255,255,220,1)"
+    );
+
+    glow.addColorStop(
+        .18,
+        "rgba(255,205,50,.95)"
+    );
+
+    glow.addColorStop(
+        .55,
+        "rgba(255,130,0,.25)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(255,100,0,0)"
+    );
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        r*3.3,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    glow;
+
+    ctx.fill();
+
+
+
+    const sun =
+    ctx.createRadialGradient(
+        x-r*.3,
+        y-r*.3,
+        1,
+        x,
+        y,
+        r
+    );
+
+    sun.addColorStop(
+        0,
+        "#fffde9"
+    );
+
+    sun.addColorStop(
+        .3,
+        "#ffe266"
+    );
+
+    sun.addColorStop(
+        .7,
+        "#ffab16"
+    );
+
+    sun.addColorStop(
+        1,
+        "#ff7600"
+    );
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        r,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    sun;
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+
+function drawPlanet(
+    x,
+    y,
+    r=10,
+    color="#5eb2ff"
+){
+
+    ctx.save();
+
+
+    ctx.shadowColor =
+    color;
+
+    ctx.shadowBlur =
+    14;
+
+
+    const gradient =
+    ctx.createRadialGradient(
+        x-r*.3,
+        y-r*.3,
+        1,
+        x,
+        y,
+        r
+    );
+
+    gradient.addColorStop(
+        0,
+        "#ffffff"
+    );
+
+    gradient.addColorStop(
+        .3,
+        color
+    );
+
+    gradient.addColorStop(
+        1,
+        "#123d73"
+    );
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        r,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    gradient;
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+
+function drawLabel(
+    text,
+    x,
+    y,
+    color
+){
+
+    ctx.save();
+
+    ctx.font =
+    "bold 14px Arial";
+
+    ctx.textAlign =
+    "center";
+
+    ctx.textBaseline =
+    "middle";
+
+
+    ctx.fillStyle =
+    "rgba(0,0,0,.65)";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        13,
+        0,
+        TWO_PI
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+    color;
+
+    ctx.fillText(
+        text,
+        x,
+        y
+    );
+
+
+    ctx.restore();
+
+}
+
+
+
+/* ==========================================================
+   1ª LEI
+========================================================== */
+
+function drawFirstLaw(time){
+
+    const w =
+    canvas.clientWidth;
+
+    const h =
+    canvas.clientHeight;
+
+
+    const cx =
+    w/2;
+
+    const cy =
+    h/2;
+
+
+    const e =
+    Number(
+        eccSlider.value
+    );
+
+
+    const a =
+    Math.min(
+        w*.36,
+        h*.34
+    );
+
+
+    const b =
+    a*Math.sqrt(
+        1-e*e
+    );
+
+
+    const c =
+    a*e;
+
+
+    const sunX =
+    cx-c;
+
+    const sunY =
+    cy;
+
+
+    const focus2X =
+    cx+c;
+
+
+
+    /*
+    ELIPSE
+    */
+
+    drawOrbit(
+        cx,
+        cy,
+        a,
+        b
+    );
+
+
+
+    /*
+    EIXO MAIOR
+    */
+
+    ctx.save();
+
+    ctx.setLineDash(
+        [6,7]
+    );
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        cx-a,
+        cy
+    );
+
+    ctx.lineTo(
+        cx+a,
+        cy
+    );
+
+    ctx.strokeStyle =
+    "rgba(255,255,255,.16)";
+
+    ctx.stroke();
+
+    ctx.restore();
+
+
+
+    /*
+    CENTRO GEOMÉTRICO
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        cx,
+        cy,
+        3,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    "rgba(255,255,255,.45)";
+
+    ctx.fill();
+
+
+
+    /*
+    SEGUNDO FOCO
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        focus2X,
+        cy,
+        4.5,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    "#ff6478";
+
+    ctx.fill();
+
+
+
+    /*
+    SOL NO PRIMEIRO FOCO
+    */
+
+    drawSun(
+        sunX,
+        sunY,
+        19
+    );
+
+
+
+    /*
+    PLANETA
+    */
+
+    const M =
+    time*.55;
+
+
+    const planet =
+    orbitalPosition(
+        M,
+        e,
+        a,
+        cx,
+        cy
+    );
+
+
+    /*
+    LINHA SOL - PLANETA
+    */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        sunX,
+        sunY
+    );
+
+    ctx.lineTo(
+        planet.x,
+        planet.y
+    );
+
+    ctx.strokeStyle =
+    "rgba(255,255,255,.25)";
+
+    ctx.lineWidth =
+    1.4;
+
+    ctx.stroke();
+
+
+    drawPlanet(
+        planet.x,
+        planet.y,
+        10
+    );
+
+
+
+    /*
+    DISTÂNCIA
+    */
+
+    const r =
+    Math.hypot(
+        planet.x-sunX,
+        planet.y-sunY
+    );
+
+
+    const rn =
+    r/a;
+
+
+    /*
+    VELOCIDADE NORMALIZADA
+    usando vis-viva
+    */
+
+    const v =
+    Math.sqrt(
+        Math.max(
+            0,
+            2/rn-1
+        )
+    );
+
+
+    document.getElementById(
+        "distance"
+    ).textContent =
+    rn.toFixed(2)+" UA";
+
+
+    document.getElementById(
+        "velocity"
+    ).textContent =
+    v.toFixed(2)+" v₀";
+
+
+    document.getElementById(
+        "majorAxis"
+    ).textContent =
+    "1,00 UA";
+
+
+    document.getElementById(
+        "period"
+    ).textContent =
+    "1 período";
+
+}
+
+
+
+/* ==========================================================
+   2ª LEI
+========================================================== */
+
+/*
+Nesta simulação:
+
+período total = 24 h simuladas.
+
+Como a anomalia média aumenta uniformemente:
+
+M = 2π t / T
+
+então escolher um intervalo Δt significa:
+
+ΔM = 2π Δt / T
+
+A área varrida é:
+
+A = (a b / 2) ΔM
+
+porque:
+
+M = E - e sen(E)
+
+Isso permite demonstrar matematicamente
+a Lei das Áreas.
+*/
+
+const EXPERIMENT_PERIOD =
+24;
+
+const EXPERIMENT_E =
+0.62;
+
+
+
+let experimentA = {
+
+    startM:null,
+
+    selected:false,
+
+    completed:false,
+
+    running:false,
+
+    elapsed:0,
+
+    duration:1,
+
+    currentM:null,
+
+    endM:null,
+
+    area:null
+
+};
+
+
+let experimentB = {
+
+    startM:null,
+
+    selected:false,
+
+    completed:false,
+
+    running:false,
+
+    elapsed:0,
+
+    duration:1,
+
+    currentM:null,
+
+    endM:null,
+
+    area:null
+
+};
+
+
+let selectionMode =
+null;
+
+
+let experimentPaused =
+false;
+
+
+
+/* ==========================================================
+   GEOMETRIA DA 2ª LEI
+========================================================== */
+
+function getExperimentGeometry(){
+
+    const w =
+    canvas.clientWidth;
+
+    const h =
+    canvas.clientHeight;
+
+
+    const cx =
+    w/2;
+
+    const cy =
+    h/2;
+
+
+    const a =
+    Math.min(
+        w*.36,
+        h*.34
+    );
+
+
+    const b =
+    a*Math.sqrt(
+        1-
+        EXPERIMENT_E*
+        EXPERIMENT_E
+    );
+
+
+    const c =
+    a*
+    EXPERIMENT_E;
+
+
+    return{
+
+        w,
+        h,
+        cx,
+        cy,
+        a,
+        b,
+
+        sunX:
+        cx-c,
+
+        sunY:
+        cy
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   CONVERTER CLIQUE NA ÓRBITA EM M
+========================================================== */
+
+/*
+O aluno pode clicar próximo da elipse.
+
+Primeiro encontramos aproximadamente
+a anomalia excêntrica E do ponto clicado.
+
+x = cx + a cos(E)
+y = cy + b sin(E)
+
+Depois:
+
+M = E - e sin(E)
+*/
+
+function pointToMeanAnomaly(
+    mouseX,
+    mouseY
+){
+
+    const g =
+    getExperimentGeometry();
+
+
+    const nx =
+    (
+        mouseX-g.cx
+    )/g.a;
+
+
+    const ny =
+    (
+        mouseY-g.cy
+    )/g.b;
+
+
+    const E =
+    Math.atan2(
+        ny,
+        nx
+    );
+
+
+    const M =
+    E
+    -
+    EXPERIMENT_E*
+    Math.sin(E);
+
+
+    return normalizeAngle(M);
+
+}
+
+
+
+/* ==========================================================
+   DISTÂNCIA DO CLIQUE ATÉ A ELIPSE
+========================================================== */
+
+function distanceFromOrbit(
+    x,
+    y
+){
+
+    const g =
+    getExperimentGeometry();
+
+
+    /*
+    coordenadas normalizadas.
+
+    Se estiver exatamente na elipse:
+
+    sqrt(nx² + ny²) = 1
+    */
+
+    const nx =
+    (
+        x-g.cx
+    )/g.a;
+
+
+    const ny =
+    (
+        y-g.cy
+    )/g.b;
+
+
+    const normalizedRadius =
+    Math.sqrt(
+        nx*nx+
+        ny*ny
+    );
+
+
+    return Math.abs(
+        normalizedRadius-1
+    );
+
+}
+
+
+
+/* ==========================================================
+   DESENHAR SETOR VARRIDO
+========================================================== */
+
+function drawSweptArea(
+    startM,
+    deltaM,
+    geometry,
+    color,
+    alpha
+){
+
+    if(
+        startM === null ||
+        deltaM <= 0
+    ){
+
+        return;
+
+    }
+
+
+    const steps =
+    Math.max(
+        30,
+        Math.ceil(
+            Math.abs(deltaM)*70
+        )
+    );
+
+
+    ctx.save();
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+        geometry.sunX,
+        geometry.sunY
+    );
+
+
+    for(
+        let i=0;
+        i<=steps;
+        i++
+    ){
+
+        const fraction =
+        i/steps;
+
+
+        const M =
+        startM
+        +
+        deltaM*fraction;
+
+
+        const p =
+        orbitalPosition(
+            M,
+            EXPERIMENT_E,
+            geometry.a,
+            geometry.cx,
+            geometry.cy
+        );
+
+
+        ctx.lineTo(
+            p.x,
+            p.y
+        );
+
+    }
+
+
+    ctx.closePath();
+
+
+    ctx.globalAlpha =
+    alpha;
+
+
+    ctx.fillStyle =
+    color;
+
+
+    ctx.fill();
+
+
+    ctx.globalAlpha =
+    .85;
+
+
+    ctx.strokeStyle =
+    color;
+
+
+    ctx.lineWidth =
+    1.4;
+
+
+    ctx.stroke();
+
+
+    ctx.restore();
+
+}
+
+
+
+/* ==========================================================
+   MARCADOR DO PONTO INICIAL
+========================================================== */
+
+function drawStartPoint(
+    exp,
+    letter,
+    color,
+    g
+){
+
+    if(
+        !exp.selected ||
+        exp.startM === null
+    ){
+
+        return;
+
+    }
+
+
+    const p =
+    orbitalPosition(
+        exp.startM,
+        EXPERIMENT_E,
+        g.a,
+        g.cx,
+        g.cy
+    );
+
+
+    ctx.save();
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        p.x,
+        p.y,
+        6,
+        0,
+        TWO_PI
+    );
+
+    ctx.fillStyle =
+    color;
+
+    ctx.fill();
+
+
+    drawLabel(
+        letter,
+        p.x,
+        p.y-21,
+        color
+    );
+
+
+    ctx.restore();
+
+}
+
+
+
+/* ==========================================================
+   ATUALIZAR UM EXPERIMENTO
+========================================================== */
+
+function updateExperiment(
+    exp,
+    dt
+){
+
+    if(
+        !exp.running ||
+        experimentPaused
+    ){
+
+        return;
+
+    }
+
+
+    /*
+    A animação visual dura alguns segundos,
+    independentemente do número de horas
+    simuladas.
+
+    Isso evita 1 hora real de espera.
+    */
+
+    const animationDuration =
+    Math.max(
+        1.8,
+        Math.min(
+            5,
+            1.8+
+            exp.duration*.25
+        )
+    );
+
+
+    exp.elapsed +=
+    dt*
+    Number(
+        speedSlider.value
+    );
+
+
+    const progress =
+    Math.min(
+        1,
+        exp.elapsed/
+        animationDuration
+    );
+
+
+    const deltaM =
+    TWO_PI*
+    (
+        exp.duration/
+        EXPERIMENT_PERIOD
+    );
+
+
+    exp.currentM =
+    exp.startM
+    +
+    deltaM*
+    progress;
+
+
+    if(progress>=1){
+
+        exp.running =
+        false;
+
+        exp.completed =
+        true;
+
+        exp.endM =
+        exp.startM+
+        deltaM;
+
+
+        /*
+        Área normalizada.
+
+        adotamos a = 1 UA.
+
+        b = sqrt(1-e²).
+
+        A = ab/2 ΔM
+        */
+
+        const aPhysical =
+        1;
+
+        const bPhysical =
+        Math.sqrt(
+            1-
+            EXPERIMENT_E*
+            EXPERIMENT_E
+        );
+
+
+        exp.area =
+        (
+            aPhysical*
+            bPhysical/
+            2
+        )*
+        deltaM;
+
+
+        updateExperimentPanel();
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   DESENHAR 2ª LEI
+========================================================== */
+
+function drawSecondLaw(dt){
+
+    const g =
+    getExperimentGeometry();
+
+
+    /*
+    ÓRBITA
+    */
+
+    drawOrbit(
+        g.cx,
+        g.cy,
+        g.a,
+        g.b
+    );
+
+
+
+    /*
+    ÁREA A COMPLETA
+    */
+
+    if(
+        experimentA.completed
+    ){
+
+        const deltaMA =
+        TWO_PI*
+        (
+            experimentA.duration/
+            EXPERIMENT_PERIOD
+        );
+
+
+        drawSweptArea(
+            experimentA.startM,
+            deltaMA,
+            g,
+            "#55bfff",
+            .31
+        );
+
+    }
+
+
+
+    /*
+    ÁREA B COMPLETA
+    */
+
+    if(
+        experimentB.completed
+    ){
+
+        const deltaMB =
+        TWO_PI*
+        (
+            experimentB.duration/
+            EXPERIMENT_PERIOD
+        );
+
+
+        drawSweptArea(
+            experimentB.startM,
+            deltaMB,
+            g,
+            "#ff9e48",
+            .31
+        );
+
+    }
+
+
+
+    /*
+    ÁREA A DURANTE ANIMAÇÃO
+    */
+
+    if(
+        experimentA.running
+    ){
+
+        const currentDelta =
+        experimentA.currentM
+        -
+        experimentA.startM;
+
+
+        drawSweptArea(
+            experimentA.startM,
+            currentDelta,
+            g,
+            "#55bfff",
+            .35
+        );
+
+    }
+
+
+
+    /*
+    ÁREA B DURANTE ANIMAÇÃO
+    */
+
+    if(
+        experimentB.running
+    ){
+
+        const currentDelta =
+        experimentB.currentM
+        -
+        experimentB.startM;
+
+
+        drawSweptArea(
+            experimentB.startM,
+            currentDelta,
+            g,
+            "#ff9e48",
+            .35
+        );
+
+    }
+
+
+
+    /*
+    MARCADORES INICIAIS
+    */
+
+    drawStartPoint(
+        experimentA,
+        "A",
+        "#66c7ff",
+        g
+    );
+
+
+    drawStartPoint(
+        experimentB,
+        "B",
+        "#ffae59",
+        g
+    );
+
+
+
+    /*
+    SOL
+    */
+
+    drawSun(
+        g.sunX,
+        g.sunY,
+        19
+    );
+
+
+
+    /*
+    PLANETA A DURANTE O MOVIMENTO
+    */
+
+    if(
+        experimentA.running
+    ){
+
+        const p =
+        orbitalPosition(
+            experimentA.currentM,
+            EXPERIMENT_E,
+            g.a,
+            g.cx,
+            g.cy
+        );
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            g.sunX,
+            g.sunY
+        );
+
+        ctx.lineTo(
+            p.x,
+            p.y
+        );
+
+        ctx.strokeStyle =
+        "rgba(100,200,255,.7)";
+
+        ctx.lineWidth =
+        1.6;
+
+        ctx.stroke();
+
+
+        drawPlanet(
+            p.x,
+            p.y,
+            10,
+            "#55bfff"
+        );
+
+    }
+
+
+
+    /*
+    PLANETA B
+    */
+
+    if(
+        experimentB.running
+    ){
+
+        const p =
+        orbitalPosition(
+            experimentB.currentM,
+            EXPERIMENT_E,
+            g.a,
+            g.cx,
+            g.cy
+        );
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            g.sunX,
+            g.sunY
+        );
+
+        ctx.lineTo(
+            p.x,
+            p.y
+        );
+
+        ctx.strokeStyle =
+        "rgba(255,170,90,.75)";
+
+        ctx.lineWidth =
+        1.6;
+
+        ctx.stroke();
+
+
+        drawPlanet(
+            p.x,
+            p.y,
+            10,
+            "#ff9e48"
+        );
+
+    }
+
+
+
+    /*
+    INSTRUÇÃO SOBRE O CANVAS
+    */
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+    "rgba(3,10,25,.82)";
+
+
+    roundRect(
+        ctx,
+        15,
+        15,
+        310,
+        selectionMode
+        ? 82
+        : 63,
+        10
+    );
+
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+    "#ffffff";
+
+
+    ctx.font =
+    "bold 14px Arial";
+
+
+    ctx.fillText(
+        "EXPERIMENTO DA LEI DAS ÁREAS",
+        29,
+        39
+    );
+
+
+    ctx.font =
+    "13px Arial";
+
+
+    if(selectionMode){
+
+        ctx.fillStyle =
+        selectionMode==="A"
+        ? "#69c7ff"
+        : "#ffb35f";
+
+
+        ctx.fillText(
+            "Clique sobre a órbita para definir o ponto "
+            +selectionMode+".",
+            29,
+            63
+        );
+
+
+        ctx.fillStyle =
+        "#9fb5d8";
+
+
+        ctx.fillText(
+            "O ponto será fixado exatamente na elipse.",
+            29,
+            82
+        );
+
+    }
+    else{
+
+        ctx.fillStyle =
+        "#a8bddd";
+
+
+        ctx.fillText(
+            "Escolha A ou B no painel ao lado.",
+            29,
+            62
+        );
+
+    }
+
+
+    ctx.restore();
+
+
+
+    /*
+    ATUALIZA ANIMAÇÕES
+    */
+
+    updateExperiment(
+        experimentA,
+        dt
+    );
+
+
+    updateExperiment(
+        experimentB,
+        dt
+    );
+
+}
+
+
+
+/* ==========================================================
+   CLIQUE SOBRE A ÓRBITA
+========================================================== */
+
+canvas.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            currentLaw!==2 ||
+            !selectionMode
+        ){
+
+            return;
+
+        }
+
+
+        const rect =
+        canvas.getBoundingClientRect();
+
+
+        const mouseX =
+        event.clientX-
+        rect.left;
+
+
+        const mouseY =
+        event.clientY-
+        rect.top;
+
+
+        /*
+        Só aceita clique relativamente
+        próximo da linha da elipse.
+        */
+
+        const distance =
+        distanceFromOrbit(
+            mouseX,
+            mouseY
+        );
+
+
+        if(distance>.12){
+
+            const message =
+            selectionMode==="A"
+            ?
+            document.getElementById(
+                "statusA"
+            )
+            :
+            document.getElementById(
+                "statusB"
+            );
+
+
+            message.textContent =
+            "Clique mais próximo da linha da órbita.";
+
+            return;
+
+        }
+
+
+        const M =
+        pointToMeanAnomaly(
+            mouseX,
+            mouseY
+        );
+
+
+        if(selectionMode==="A"){
+
+            experimentA.startM =
+            M;
+
+            experimentA.selected =
+            true;
+
+            experimentA.completed =
+            false;
+
+            experimentA.running =
+            false;
+
+            experimentA.area =
+            null;
+
+
+            document.getElementById(
+                "statusA"
+            ).textContent =
+            "Ponto A selecionado. Agora defina o tempo e execute.";
+
+        }
+        else{
+
+            experimentB.startM =
+            M;
+
+            experimentB.selected =
+            true;
+
+            experimentB.completed =
+            false;
+
+            experimentB.running =
+            false;
+
+            experimentB.area =
+            null;
+
+
+            document.getElementById(
+                "statusB"
+            ).textContent =
+            "Ponto B selecionado. Agora defina o tempo e execute.";
+
+        }
+
+
+        selectionMode =
+        null;
+
+
+        canvas.classList.remove(
+            "selecting"
+        );
+
+
+        updateExperimentPanel();
+
+    }
+);
+
+
+
+/* ==========================================================
+   SELECIONAR A
+========================================================== */
+
+document.getElementById(
+    "selectA"
+).addEventListener(
+    "click",
+    ()=>{
+
+        selectionMode =
+        "A";
+
+
+        canvas.classList.add(
+            "selecting"
+        );
+
+
+        document.getElementById(
+            "statusA"
+        ).textContent =
+        "Clique sobre a órbita para marcar o ponto A.";
+
+    }
+);
+
+
+
+/* ==========================================================
+   SELECIONAR B
+========================================================== */
+
+document.getElementById(
+    "selectB"
+).addEventListener(
+    "click",
+    ()=>{
+
+        selectionMode =
+        "B";
+
+
+        canvas.classList.add(
+            "selecting"
+        );
+
+
+        document.getElementById(
+            "statusB"
+        ).textContent =
+        "Clique sobre a órbita para marcar o ponto B.";
+
+    }
+);
+
+
+
+/* ==========================================================
+   EXECUTAR EXPERIMENTO
+========================================================== */
+
+function startExperiment(
+    exp,
+    inputId,
+    statusId
+){
+
+    const status =
+    document.getElementById(
+        statusId
+    );
+
+
+    if(
+        !exp.selected ||
+        exp.startM===null
+    ){
+
+        status.textContent =
+        "Escolha primeiro um ponto na órbita.";
+
+        return;
+
+    }
+
+
+    let duration =
+    Number(
+        document.getElementById(
+            inputId
+        ).value
+    );
+
+
+    if(
+        !Number.isFinite(duration) ||
+        duration<=0
+    ){
+
+        status.textContent =
+        "Digite um intervalo de tempo maior que zero.";
+
+        return;
+
+    }
+
+
+    if(duration>12){
+
+        duration =
+        12;
+
+        document.getElementById(
+            inputId
+        ).value =
+        12;
+
+    }
+
+
+    exp.duration =
+    duration;
+
+    exp.elapsed =
+    0;
+
+    exp.running =
+    true;
+
+    exp.completed =
+    false;
+
+    exp.area =
+    null;
+
+    exp.currentM =
+    exp.startM;
+
+    exp.endM =
+    null;
+
+
+    experimentPaused =
+    false;
+
+
+    document.getElementById(
+        "pauseExperiment"
+    ).textContent =
+    "⏸ Pausar animação";
+
+
+    status.textContent =
+    "Experimento em andamento...";
+
+}
+
+
+
+/* A */
+
+document.getElementById(
+    "playA"
+).addEventListener(
+    "click",
+    ()=>{
+
+        startExperiment(
+            experimentA,
+            "timeA",
+            "statusA"
+        );
+
+    }
+);
+
+
+
+/* B */
+
+document.getElementById(
+    "playB"
+).addEventListener(
+    "click",
+    ()=>{
+
+        startExperiment(
+            experimentB,
+            "timeB",
+            "statusB"
+        );
+
+    }
+);
+
+
+
+/* ==========================================================
+   ATUALIZAR RESULTADOS
+========================================================== */
+
+function updateExperimentPanel(){
+
+    const areaA =
+    experimentA.area;
+
+
+    const areaB =
+    experimentB.area;
+
+
+
+    document.getElementById(
+        "resultTimeA"
+    ).textContent =
+    experimentA.completed
+    ?
+    experimentA.duration.toFixed(1)+" h"
+    :
+    "—";
+
+
+    document.getElementById(
+        "resultTimeB"
+    ).textContent =
+    experimentB.completed
+    ?
+    experimentB.duration.toFixed(1)+" h"
+    :
+    "—";
+
+
+    document.getElementById(
+        "resultAreaA"
+    ).textContent =
+    areaA!==null
+    ?
+    areaA.toFixed(4)+" UA²"
+    :
+    "—";
+
+
+    document.getElementById(
+        "resultAreaB"
+    ).textContent =
+    areaB!==null
+    ?
+    areaB.toFixed(4)+" UA²"
+    :
+    "—";
+
+
+    const message =
+    document.getElementById(
+        "resultMessage"
+    );
+
+
+    if(
+        areaA===null ||
+        areaB===null
+    ){
+
+        document.getElementById(
+            "resultDifference"
+        ).textContent =
+        "—";
+
+
+        message.innerHTML =
+        "Execute os dois experimentos para comparar as áreas.";
+
+        return;
+
+    }
+
+
+    const mean =
+    (
+        areaA+
+        areaB
+    )/2;
+
+
+    const difference =
+    mean>0
+    ?
+    Math.abs(
+        areaA-areaB
+    )/mean*100
+    :
+    0;
+
+
+    document.getElementById(
+        "resultDifference"
+    ).textContent =
+    difference.toFixed(2)+"%";
+
+
+    const sameTime =
+    Math.abs(
+        experimentA.duration-
+        experimentB.duration
+    )<0.000001;
+
+
+    if(sameTime){
+
+        message.innerHTML =
+
+        `
+        <strong style="color:#6be3ae">
+        ✓ 2ª Lei de Kepler verificada!
+        </strong>
+
+        <br>
+
+        Os dois intervalos possuem
+        <strong>
+        ${experimentA.duration.toFixed(1)} h
+        </strong>
+
+        e produziram áreas iguais,
+        mesmo partindo de regiões diferentes da órbita.
+        `;
+
+    }
+    else{
+
+        message.innerHTML =
+
+        `
+        Os tempos escolhidos são diferentes.
+
+        <br><br>
+
+        Para testar diretamente a 2ª Lei,
+        utilize o <strong>mesmo intervalo de tempo</strong>
+        nos experimentos A e B.
+        `;
+
+    }
+
+
+    document.getElementById(
+        "statusA"
+    ).textContent =
+    experimentA.completed
+    ?
+    "Experimento A concluído."
+    :
+    document.getElementById(
+        "statusA"
+    ).textContent;
+
+
+    document.getElementById(
+        "statusB"
+    ).textContent =
+    experimentB.completed
+    ?
+    "Experimento B concluído."
+    :
+    document.getElementById(
+        "statusB"
+    ).textContent;
+
+}
+
+
+
+/* ==========================================================
+   LIMPAR
+========================================================== */
+
+document.getElementById(
+    "clearExperiments"
+).addEventListener(
+    "click",
+    ()=>{
+
+        experimentA = {
+
+            startM:null,
+
+            selected:false,
+
+            completed:false,
+
+            running:false,
+
+            elapsed:0,
+
+            duration:1,
+
+            currentM:null,
+
+            endM:null,
+
+            area:null
+
+        };
+
+
+        experimentB = {
+
+            startM:null,
+
+            selected:false,
+
+            completed:false,
+
+            running:false,
+
+            elapsed:0,
+
+            duration:1,
+
+            currentM:null,
+
+            endM:null,
+
+            area:null
+
+        };
+
+
+        selectionMode =
+        null;
+
+
+        experimentPaused =
+        false;
+
+
+        canvas.classList.remove(
+            "selecting"
+        );
+
+
+        document.getElementById(
+            "statusA"
+        ).textContent =
+        "Ponto A ainda não selecionado.";
+
+
+        document.getElementById(
+            "statusB"
+        ).textContent =
+        "Ponto B ainda não selecionado.";
+
+
+        document.getElementById(
+            "pauseExperiment"
+        ).textContent =
+        "⏸ Pausar animação";
+
+
+        updateExperimentPanel();
+
+    }
+);
+
+
+
+/* ==========================================================
+   PAUSAR EXPERIMENTO
+========================================================== */
+
+document.getElementById(
+    "pauseExperiment"
+).addEventListener(
+    "click",
+    ()=>{
+
+        experimentPaused =
+        !experimentPaused;
+
+
+        document.getElementById(
+            "pauseExperiment"
+        ).textContent =
+        experimentPaused
+        ?
+        "▶ Continuar animação"
+        :
+        "⏸ Pausar animação";
+
+    }
+);
+
+
+
+/* ==========================================================
+   RETÂNGULO ARREDONDADO
+========================================================== */
+
+function roundRect(
+    context,
+    x,
+    y,
+    width,
+    height,
+    radius
+){
+
+    context.beginPath();
+
+    context.moveTo(
+        x+radius,
+        y
+    );
+
+    context.lineTo(
+        x+width-radius,
+        y
+    );
+
+    context.quadraticCurveTo(
+        x+width,
+        y,
+        x+width,
+        y+radius
+    );
+
+    context.lineTo(
+        x+width,
+        y+height-radius
+    );
+
+    context.quadraticCurveTo(
+        x+width,
+        y+height,
+        x+width-radius,
+        y+height
+    );
+
+    context.lineTo(
+        x+radius,
+        y+height
+    );
+
+    context.quadraticCurveTo(
+        x,
+        y+height,
+        x,
+        y+height-radius
+    );
+
+    context.lineTo(
+        x,
+        y+radius
+    );
+
+    context.quadraticCurveTo(
+        x,
+        y,
+        x+radius,
+        y
+    );
+
+    context.closePath();
+
+}
+
+
+
+/* ==========================================================
+   3ª LEI
+========================================================== */
+
+function drawThirdLaw(time){
+
+    const w =
+    canvas.clientWidth;
+
+    const h =
+    canvas.clientHeight;
+
+
+    const cx =
+    w/2;
+
+    const cy =
+    h/2;
+
+
+    const scale =
+    Math.min(
+        w,
+        h
+    )/8.8;
+
+
+    drawSun(
+        cx,
+        cy,
+        18
+    );
+
+
+    const planets=[
+
+        {
+
+            a:1.15,
+
+            color:"#62b4ff",
+
+            name:"A"
+
+        },
+
+        {
+
+            a:2,
+
+            color:"#ff9966",
+
+            name:"B"
+
+        },
+
+        {
+
+            a:2.9,
+
+            color:"#a98aff",
+
+            name:"C"
+
+        }
+
+    ];
+
+
+    planets.forEach(
+        (p,index)=>{
+
+            const radius =
+            p.a*scale;
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx,
+                cy,
+                radius,
+                0,
+                TWO_PI
+            );
+
+
+            ctx.strokeStyle =
+            "rgba(130,170,255,.3)";
+
+
+            ctx.stroke();
+
+
+            /*
+            T² = a³
+
+            T = a^(3/2)
+            */
+
+            const T =
+            Math.pow(
+                p.a,
+                1.5
+            );
+
+
+            const angle =
+            time*.72/T
+            +
+            index*.65;
+
+
+            const x =
+            cx+
+            Math.cos(angle)*
+            radius;
+
+
+            const y =
+            cy+
+            Math.sin(angle)*
+            radius;
+
+
+            drawPlanet(
+                x,
+                y,
+                8+index,
+                p.color
+            );
+
+
+            ctx.fillStyle =
+            p.color;
+
+
+            ctx.font =
+            "13px Arial";
+
+
+            ctx.fillText(
+
+                "Planeta "
+                +p.name
+                +"   T = "
+                +T.toFixed(2)
+                +" anos",
+
+                18,
+
+                29+
+                index*24
+
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "distance"
+    ).textContent =
+    "—";
+
+
+    document.getElementById(
+        "velocity"
+    ).textContent =
+    "Comparativa";
+
+
+    document.getElementById(
+        "majorAxis"
+    ).textContent =
+    "a₁, a₂, a₃";
+
+
+    document.getElementById(
+        "period"
+    ).textContent =
+    "T ∝ a³ᐟ²";
+
+}
+
+
+
+/* ==========================================================
+   TEXTOS
+========================================================== */
+
+function updateLawText(){
+
+    const title =
+    document.getElementById(
+        "lawTitle"
+    );
+
+
+    const description =
+    document.getElementById(
+        "lawDescription"
+    );
+
+
+    const formula =
+    document.getElementById(
+        "formula"
+    );
+
+
+    const info =
+    document.getElementById(
+        "info"
+    );
+
+
+    const eccControl =
+    document.getElementById(
+        "eccControl"
+    );
+
+
+    const generalButtons =
+    document.getElementById(
+        "generalButtons"
+    );
+
+
+    const generalData =
+    document.getElementById(
+        "generalData"
+    );
+
+
+    const experimentPanel =
+    document.getElementById(
+        "experimentPanel"
+    );
+
+
+    const legend =
+    document.getElementById(
+        "legend"
+    );
+
+
+
+    if(currentLaw===1){
+
+        title.innerHTML =
+        "1ª Lei — Lei das Órbitas";
+
+
+        description.innerHTML =
+
+        `
+        Os planetas descrevem órbitas
+        <strong>elípticas</strong> ao redor do Sol.
+        O Sol ocupa <strong>um dos focos</strong>
+        da elipse.
+        `;
+
+
+        formula.innerHTML =
+        "Sol → um dos focos da elipse";
+
+
+        info.innerHTML =
+
+        `
+        Altere a excentricidade e observe
+        a mudança da forma da órbita.
+
+        Quando <strong>e = 0</strong>,
+        a órbita é circular.
+        Quanto maior a excentricidade,
+        mais alongada se torna a elipse.
+        `;
+
+
+        eccControl.style.display =
+        "block";
+
+
+        generalButtons.style.display =
+        "grid";
+
+
+        generalData.style.display =
+        "grid";
+
+
+        experimentPanel.style.display =
+        "none";
+
+
+        legend.innerHTML =
+
+        `
+        <span>
+        <span
+        class="dot"
+        style="background:#ffd343">
+        </span>
+        Sol no foco
+        </span>
+
+        <span>
+        <span
+        class="dot"
+        style="background:#5eb2ff">
+        </span>
+        Planeta
+        </span>
+
+        <span>
+        <span
+        class="dot"
+        style="background:#ff6478">
+        </span>
+        Segundo foco
+        </span>
+        `;
+
+    }
+
+
+
+    else if(currentLaw===2){
+
+        title.innerHTML =
+        "2ª Lei — Lei das Áreas";
+
+
+        description.innerHTML =
+
+        `
+        O segmento que liga o planeta ao Sol
+        varre <strong>áreas iguais em intervalos
+        de tempo iguais</strong>.
+        `;
+
+
+        formula.innerHTML =
+        "Δt₁ = Δt₂ &nbsp; → &nbsp; A₁ = A₂";
+
+
+        info.innerHTML =
+
+        `
+        Realize dois experimentos em regiões
+        diferentes da órbita.
+
+        Escolha diretamente os pontos iniciais
+        e determine quanto tempo o planeta deve
+        se movimentar.
+
+        Use tempos iguais para verificar
+        experimentalmente a 2ª Lei.
+        `;
+
+
+        eccControl.style.display =
+        "none";
+
+
+        generalButtons.style.display =
+        "none";
+
+
+        generalData.style.display =
+        "none";
+
+
+        experimentPanel.style.display =
+        "block";
+
+
+        legend.innerHTML =
+
+        `
+        <span>
+        <span
+        class="dot"
+        style="background:#55bfff">
+        </span>
+        Área A₁
+        </span>
+
+        <span>
+        <span
+        class="dot"
+        style="background:#ff9e48">
+        </span>
+        Área A₂
+        </span>
+
+        <span>
+        Clique diretamente sobre a órbita
+        para escolher cada ponto inicial.
+        </span>
+        `;
+
+    }
+
+
+
+    else{
+
+        title.innerHTML =
+        "3ª Lei — Lei dos Períodos";
+
+
+        description.innerHTML =
+
+        `
+        Quanto maior a distância média
+        do planeta ao Sol,
+        maior será seu período orbital.
+        `;
+
+
+        formula.innerHTML =
+        "T² ∝ a³";
+
+
+        info.innerHTML =
+
+        `
+        Para corpos orbitando a mesma estrela,
+        a razão entre o quadrado do período
+        e o cubo do semieixo maior
+        permanece constante.
+        `;
+
+
+        eccControl.style.display =
+        "none";
+
+
+        generalButtons.style.display =
+        "grid";
+
+
+        generalData.style.display =
+        "grid";
+
+
+        experimentPanel.style.display =
+        "none";
+
+
+        legend.innerHTML =
+
+        `
+        Planetas em órbitas maiores
+        apresentam períodos orbitais maiores.
+        `;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   ABAS
+========================================================== */
+
+document
+.querySelectorAll(
+    ".tab"
+)
+.forEach(
+    button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                currentLaw =
+                Number(
+                    button.dataset.law
+                );
+
+
+                simulationTime =
+                0;
+
+
+                selectionMode =
+                null;
+
+
+                canvas.classList.remove(
+                    "selecting"
+                );
+
+
+                document
+                .querySelectorAll(
+                    ".tab"
+                )
+                .forEach(
+                    item=>{
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                updateLawText();
+
+            }
+        );
+
+    }
+);
+
+
+
+/* ==========================================================
+   CONTROLES
+========================================================== */
+
+playButton.addEventListener(
+    "click",
+    ()=>{
+
+        running =
+        !running;
+
+
+        playButton.textContent =
+        running
+        ?
+        "⏸ Pausar"
+        :
+        "▶ Continuar";
+
+    }
+);
+
+
+
+resetButton.addEventListener(
+    "click",
+    ()=>{
+
+        simulationTime =
+        0;
+
+    }
+);
+
+
+
+eccSlider.addEventListener(
+    "input",
+    ()=>{
+
+        document.getElementById(
+            "eccValue"
+        ).textContent =
+        Number(
+            eccSlider.value
+        ).toFixed(2);
+
+    }
+);
+
+
+
+speedSlider.addEventListener(
+    "input",
+    ()=>{
+
+        document.getElementById(
+            "speedValue"
+        ).textContent =
+        Number(
+            speedSlider.value
+        ).toFixed(1)
+        +"×";
+
+    }
+);
+
+
+
+/* ==========================================================
+   ANIMAÇÃO
+========================================================== */
+
+function animate(timestamp){
+
+    if(!previousTimestamp){
+
+        previousTimestamp =
+        timestamp;
+
+    }
+
+
+    let dt =
+    (
+        timestamp-
+        previousTimestamp
+    )/1000;
+
+
+    previousTimestamp =
+    timestamp;
+
+
+    dt =
+    Math.min(
+        dt,
+        .05
+    );
+
+
+    if(
+        running &&
+        currentLaw!==2
+    ){
+
+        simulationTime +=
+        dt*
+        Number(
+            speedSlider.value
+        );
+
+    }
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.clientWidth,
+        canvas.clientHeight
+    );
+
+
+
+    if(currentLaw===1){
+
+        drawFirstLaw(
+            simulationTime
+        );
+
+    }
+
+
+    else if(currentLaw===2){
+
+        drawSecondLaw(
+            dt
+        );
+
+    }
+
+
+    else{
+
+        drawThirdLaw(
+            simulationTime
+        );
+
+    }
+
+
+    requestAnimationFrame(
+        animate
+    );
+
+}
+
+
+
+/* ==========================================================
+   INICIAR
+========================================================== */
+
+updateLawText();
+
+updateExperimentPanel();
+
+requestAnimationFrame(
+    animate
+);
+
+</script>
+
+
+</body>
+
+</html>
